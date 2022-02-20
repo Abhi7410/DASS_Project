@@ -95,7 +95,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                                             <LocalMallOutlinedIcon fontSize="inherit" />
                                         </Avatar>
                                     </Grid>
-                                    <Grid item>
+                                    {/* <Grid item>
                                         <Button
                                             disableElevation
                                             variant={timeValue ? 'contained' : 'text'}
@@ -114,12 +114,12 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                                         >
                                             Year
                                         </Button>
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                             </Grid>
                             <Grid item sx={{ mb: 0.75 }}>
                                 <Grid container alignItems="center">
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12}>
                                         <Grid container alignItems="center">
                                             <Grid item>
                                                 {timeValue ? (
@@ -128,7 +128,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                                                     </Typography>
                                                 ) : (
                                                     <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                                                        $961
+                                                        NO PLAN
                                                     </Typography>
                                                 )}
                                             </Grid>
@@ -152,14 +152,14 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                                                         color: theme.palette.primary[200]
                                                     }}
                                                 >
-                                                    Total Order
+                                                    Current Plan
                                                 </Typography>
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    {/* <Grid item xs={6}>
                                         {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataYear} />}
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                             </Grid>
                         </Grid>
