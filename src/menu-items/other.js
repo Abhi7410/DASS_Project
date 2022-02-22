@@ -14,7 +14,7 @@ const other = {
             id: 'backgrounds',
             title: 'Pricing Plans',
             type: 'item',
-            url: '/backgrounds',
+            url: '/plans',
             icon: icons.IconArtboard,
             breadcrumbs: false
         },

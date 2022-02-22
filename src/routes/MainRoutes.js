@@ -4,7 +4,7 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import { decomposeColor } from '@mui/system';
-import backgrounds from 'views/backgrounds';
+import backgrounds from 'views/plans';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -18,7 +18,7 @@ const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons
 
 // sample page routing
 const Demonstrate = Loadable(lazy(() => import('views/how_to')));
-const Backgrounds = Loadable(lazy(() => import('views/backgrounds')));
+const Plans = Loadable(lazy(() => import('views/plans')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -58,8 +58,8 @@ const MainRoutes = {
             element: <Demonstrate />
         },
         {
-            path: '/backgrounds',
-            element: <Backgrounds />
+            path: '/plans',
+            element: <Plans />
         }
     ]
 };
