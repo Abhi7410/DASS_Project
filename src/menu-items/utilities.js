@@ -13,12 +13,12 @@ const icons = {
 
 const utilities = {
     id: 'utilities',
-    title: 'Utilities',
+    title: 'Media and Models',
     type: 'group',
     children: [
         {
             id: 'util-typography',
-            title: 'Typography',
+            title: 'Text',
             type: 'item',
             url: '/utils/util-typography',
             icon: icons.IconTypography,
@@ -26,7 +26,7 @@ const utilities = {
         },
         {
             id: 'util-color',
-            title: 'Color',
+            title: 'Image and Video',
             type: 'item',
             url: '/utils/util-color',
             icon: icons.IconPalette,
@@ -34,7 +34,7 @@ const utilities = {
         },
         {
             id: 'util-shadow',
-            title: 'Shadow',
+            title: 'Backgrounds',
             type: 'item',
             url: '/utils/util-shadow',
             icon: icons.IconShadow,
@@ -42,20 +42,34 @@ const utilities = {
         },
         {
             id: 'icons',
-            title: 'Icons',
+            title: '3D Avatar',
             type: 'collapse',
             icon: icons.IconWindmill,
             children: [
                 {
                     id: 'tabler-icons',
-                    title: 'Tabler Icons',
+                    title: 'Front Profile',
                     type: 'item',
                     url: '/icons/tabler-icons',
                     breadcrumbs: false
                 },
                 {
                     id: 'material-icons',
-                    title: 'Material Icons',
+                    title: 'Right Profile',
+                    type: 'item',
+                    url: '/icons/material-icons',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'material-icons',
+                    title: 'Left Profile',
+                    type: 'item',
+                    url: '/icons/material-icons',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'material-icons',
+                    title: 'Back Profile',
                     type: 'item',
                     url: '/icons/material-icons',
                     breadcrumbs: false

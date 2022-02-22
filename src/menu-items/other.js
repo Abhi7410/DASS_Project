@@ -12,7 +12,7 @@ const other = {
     children: [
         {
             id: 'backgrounds',
-            title: 'Backgrounds',
+            title: 'Pricing Plans',
             type: 'item',
             url: '/backgrounds',
             icon: icons.IconArtboard,
