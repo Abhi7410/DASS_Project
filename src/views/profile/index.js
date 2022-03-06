@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import {
     Avatar,
+    Button,
     Drawer,
     Fab,
     FormControl,
@@ -18,7 +19,7 @@ import { useTheme } from '@mui/material/styles';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import User1 from 'assets/images/users/user-round.svg';
-
+import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -64,38 +65,49 @@ const Profile = () => {
                                 color="inherit"
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Grid container justifyContent="center">
-                                <Grid item xs={3}>
-                                    <TextField style={{}} id="outlined-error" label="Name" defaultValue="Hello World" />
+                    </Grid>
+                    <Grid container justifyContent="center" direction="row" spacing={2}>
+                        {/* Left Column */}
+                        <Grid item xs={5}>
+                            <Grid spacing={2} container direction="column" justifyContent="center">
+                                <Grid item xs={12}>
+                                    <TextField fullWidth style={{}} id="outlined-error" label="Name" defaultValue="John" />
                                 </Grid>
-                                <Grid item xs={2} />
-                                <Grid item xs={3}>
-                                    <TextField id="outlined-error" label="Email" defaultValue="Hello World" />
+
+                                <Grid item xs={12}>
+                                    <TextField fullWidth id="outlined-error" label="Email" defaultValue="john@demomail.com" />
                                 </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Grid container justifyContent="center">
-                                <Grid item xs={3}>
-                                    <TextField style={{}} id="outlined-error" label="Join Date" defaultValue="Hello World" />
-                                </Grid>
-                                <Grid item xs={2} />
-                                <Grid item xs={3}>
-                                    <TextField id="outlined-error" label="Current Plan" defaultValue="Hello World" />
+                                <Grid item xs={12}>
+                                    <TextField fullWidth id="outlined-error" label="Member Since" defaultValue="Nov 10, 2021" />
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Grid container justifyContent="center">
-                                <Grid item xs={3}>
-                                    <TextField style={{}} id="outlined-error" label="Country" defaultValue="Hello World" />
+                        {/* Midspace */}
+                        <Grid item xs={0.1} alignItems="center">
+                            <Divider variant="center" orientation="vertical" />
+                        </Grid>
+                        {/* Right Column */}
+                        <Grid item xs={5}>
+                            <Grid spacing={2} container direction="column" justifyContent="center">
+                                <Grid item xs={12}>
+                                    <TextField fullWidth id="outlined-error" label="Country" defaultValue="India" />
                                 </Grid>
-                                <Grid item xs={2} />
-                                <Grid item xs={3}>
-                                    <TextField id="outlined-error" label="Date of Birth" defaultValue="Hello World" />
+                                <Grid item xs={12}>
+                                    <TextField fullWidth style={{}} id="outlined-error" label="Date of Birth" defaultValue="Nov 22, 2002" />
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <TextField disabled fullWidth id="outlined-error" label="Current Plan" defaultValue="Hello World" />
                                 </Grid>
                             </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <Grid justifyContent="center" marginTop="2rem" container spacing={2}>
+                        <Grid item>
+                            <Button width="20rem" style={{ backgroundColor: 'black', color: 'white', borderRadius: '10%' }}>
+                                Edit Profile
+                            </Button>
                         </Grid>
                     </Grid>
                 </MainCard>

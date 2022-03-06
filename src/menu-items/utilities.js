@@ -1,12 +1,13 @@
 // assets
-import { IconTypography, IconPalette, IconShadow, IconWindmill } from '@tabler/icons';
+import { IconTypography, IconPalette, IconShadow, IconWindmill, IconArrowBarToUp } from '@tabler/icons';
 
 // constant
 const icons = {
     IconTypography,
     IconPalette,
     IconShadow,
-    IconWindmill
+    IconWindmill,
+    IconArrowBarToUp
 };
 
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
@@ -30,6 +31,14 @@ const utilities = {
             type: 'item',
             url: '/utils/util-color',
             icon: icons.IconPalette,
+            breadcrumbs: false
+        },
+        {
+            id: 'util-upload',
+            title: 'Upload Media',
+            type: 'item',
+            url: '/utils/util-upload',
+            icon: icons.IconArrowBarToUp,
             breadcrumbs: false
         },
         {
