@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { Box, Card, Grid, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
 // project imports
 import SubCard from 'ui-component/cards/SubCard';
@@ -63,34 +65,31 @@ const UIColor = () => (
                 <SubCard title="Image Upload">
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="primary.light"
-                                data={{ label: 'Resolution and Size', color: 'Upload Date' }}
-                                title="Previous 1"
-                                dark
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2 }}>
+                                <Button component={Link} to="/utils/upload-image" sx={{ color: 'black' }}>
+                                    +
+                                </Button>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="primary.200"
-                                data={{ label: 'Resolution and Size', color: 'Upload Date' }}
-                                title="Previous 2"
-                                dark
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: 'primary.light' }}>
+                                <Button sx={{ color: 'black' }}>Previous 1</Button>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="primary.main"
-                                data={{ label: 'Resolution and Size', color: 'Upload Date' }}
-                                title="Previous 3"
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: 'primary.200' }}>
+                                <Button sx={{ color: 'black' }}>Previous 2</Button>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="primary.dark"
-                                data={{ label: 'Resolution and Size', color: 'Upload Date' }}
-                                title="Previous 4"
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: 'primary.main' }}>
+                                <Button sx={{ color: 'primary.light' }}>Previous 3</Button>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4} lg={2}>
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: 'primary.dark' }}>
+                                <Button sx={{ color: 'primary.light' }}>Previous 4</Button>
+                            </Box>
                         </Grid>
                     </Grid>
                 </SubCard>
@@ -99,34 +98,31 @@ const UIColor = () => (
                 <SubCard title="Video Upload">
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="secondary.light"
-                                data={{ label: 'Resolution and Length', color: 'Upload Date' }}
-                                title="Previous 1"
-                                dark
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2 }}>
+                                <Button component={Link} to="/utils/upload-image" sx={{ color: 'black' }}>
+                                    +
+                                </Button>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="secondary.200"
-                                data={{ label: 'Resolution and Length', color: 'Upload Date' }}
-                                title="Previous 2"
-                                dark
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: '#f7adad' }}>
+                                <Button sx={{ color: 'black' }}>Previous 1</Button>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="secondary.main"
-                                data={{ label: 'Resolution and Length', color: 'Upload Date' }}
-                                title="Previous 3"
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: '#f58484' }}>
+                                <Button sx={{ color: 'black' }}>Previous 2</Button>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="secondary.dark"
-                                data={{ label: 'Resolution and Length', color: 'Upload Date' }}
-                                title="Previous 4"
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: '#f54c4c' }}>
+                                <Button sx={{ color: 'primary.light' }}>Previous 3</Button>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4} lg={2}>
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: '#ff0000' }}>
+                                <Button sx={{ color: 'primary.light' }}>Previous 4</Button>
+                            </Box>
                         </Grid>
                     </Grid>
                 </SubCard>
@@ -135,33 +131,31 @@ const UIColor = () => (
                 <SubCard title="Audio Upload">
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="success.light"
-                                data={{ label: 'Resolution and Length', color: 'Upload Date' }}
-                                title="Previous 1"
-                                dark
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2 }}>
+                                <Button component={Link} to="/utils/upload-image" sx={{ color: 'black' }}>
+                                    +
+                                </Button>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="success.main"
-                                data={{ label: 'Resolution and Length', color: 'Upload Date' }}
-                                title="Previous 2"
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: 'secondary.light' }}>
+                                <Button sx={{ color: 'black' }}>Previous 1</Button>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="success.main"
-                                data={{ label: 'Resolution and Length', color: 'Upload Date' }}
-                                title="Previous 3"
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: 'secondary.200' }}>
+                                <Button sx={{ color: 'black' }}>Previous 2</Button>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                            <ColorBox
-                                bgcolor="success.dark"
-                                data={{ label: 'Resolution and Length', color: 'Upload Date' }}
-                                title="Previous 4"
-                            />
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: 'secondary.main' }}>
+                                <Button sx={{ color: 'primary.light' }}>Previous 3</Button>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4} lg={2}>
+                            <Box component="span" sx={{ p: 2, border: '1px solid grey', borderRadius: 2, bgcolor: 'secondary.dark' }}>
+                                <Button sx={{ color: 'primary.light' }}>Previous 4</Button>
+                            </Box>
                         </Grid>
                     </Grid>
                 </SubCard>
