@@ -56,6 +56,8 @@ const ProfileSection = () => {
      * */
     const anchorRef = useRef(null);
     const handleLogout = async () => {
+        localStorage.removeItem('user');
+        setOpen(false);
         console.log('Logout');
     };
 

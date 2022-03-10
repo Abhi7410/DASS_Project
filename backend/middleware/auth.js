@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET = "sl_myJwtSecret";
 
 export default (req, res, next) => {
-  const token = req.header("x-auth-token");
+  const token = req.header("x-access-token");
 
   // Check for token
   if (!token)

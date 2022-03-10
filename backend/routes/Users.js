@@ -16,15 +16,17 @@ const router = Router();
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(req.body);
   // Simple validation
   if (!email || !password) {
+    console.log("AAAH");
     return res.status(400).json({ msg: "Please enter all fields" });
   }
 
   try {
     // Check for existing user
     const user = await User.findOne({ email });
+    console.log(user);
     if (!user) throw Error("User does not exist");
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -53,10 +55,10 @@ router.post("/login", async (req, res) => {
  */
 
 router.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { fname, lname, email, password } = req.body;
   console.log(req.body);
   // Simple validation
-  if (!name || !email || !password) {
+  if (!fname || !email || !password) {
     return res.status(400).json({ msg: "Please enter all fields" });
   }
 
@@ -71,7 +73,8 @@ router.post("/register", async (req, res) => {
     if (!hash) throw Error("Something went wrong hashing the password");
 
     const newUser = new User({
-      name,
+      fname,
+      lname,
       email,
       password: hash,
     });

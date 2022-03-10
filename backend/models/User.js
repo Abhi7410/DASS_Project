@@ -2,9 +2,12 @@ import pkg from "mongoose";
 const { Schema, model } = pkg;
 // Create Schema
 const UserSchema = new Schema({
-  name: {
+  fname: {
     type: String,
     required: true,
+  },
+  lname: {
+    type: String,
   },
   email: {
     type: String,

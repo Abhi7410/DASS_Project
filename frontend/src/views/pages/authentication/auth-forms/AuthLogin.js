@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-
+/* eslint-disable */
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -34,6 +34,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import axios from 'axios';
+import { register, login, logout } from '../../../../services/auth.service';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -43,7 +45,6 @@ const FirebaseLogin = ({ ...others }) => {
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
-
     const googleHandler = async () => {
         console.error('Login');
     };
@@ -56,7 +57,23 @@ const FirebaseLogin = ({ ...others }) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+    const API_URL = 'http://localhost:4000/user/';
 
+    const attemptLogin = (values) => {
+        console.log(values);
+        axios
+            .post(API_URL + 'login', {
+                email: values.email,
+                password: values.password
+            })
+            .then((response) => {
+                console.log(response);
+                if (response.data.token) {
+                    localStorage.setItem('user', JSON.stringify(response.data.token));
+                }
+                return response.data;
+            });
+    };
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
@@ -120,7 +137,7 @@ const FirebaseLogin = ({ ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
+                    email: 'cur@g.com',
                     password: '123456',
                     submit: null
                 }}
@@ -200,7 +217,7 @@ const FirebaseLogin = ({ ...others }) => {
                                 </FormHelperText>
                             )}
                         </FormControl>
-                        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+                        {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -215,7 +232,7 @@ const FirebaseLogin = ({ ...others }) => {
                             <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
                                 Forgot Password?
                             </Typography>
-                        </Stack>
+                        </Stack> */}
                         {errors.submit && (
                             <Box sx={{ mt: 3 }}>
                                 <FormHelperText error>{errors.submit}</FormHelperText>
@@ -232,6 +249,7 @@ const FirebaseLogin = ({ ...others }) => {
                                     type="submit"
                                     variant="contained"
                                     color="secondary"
+                                    onClick={() => attemptLogin(values)}
                                 >
                                     Sign in
                                 </Button>

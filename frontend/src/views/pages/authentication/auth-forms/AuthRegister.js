@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+/* eslint-disable */
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -36,6 +36,7 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import axios from 'axios';
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
 const FirebaseRegister = ({ ...others }) => {
@@ -48,7 +49,21 @@ const FirebaseRegister = ({ ...others }) => {
 
     const [strength, setStrength] = useState(0);
     const [level, setLevel] = useState();
-
+    const API_URL = 'http://localhost:4000/user/';
+    const register = (values) => {
+        console.log(values);
+        axios
+            .post(API_URL + 'register', {
+                fname: values.fname,
+                lname: values.lname,
+                email: values.email,
+                password: values.password
+            })
+            .then((res) => {
+                localStorage.setItem('user', JSON.stringify(res.data.token));
+                console.log(res);
+            });
+    };
     const googleHandler = async () => {
         console.error('Register');
     };
@@ -156,6 +171,8 @@ const FirebaseRegister = ({ ...others }) => {
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
+                                    value={values.fname}
+                                    onChange={handleChange}
                                     label="First Name"
                                     margin="normal"
                                     name="fname"
@@ -172,6 +189,8 @@ const FirebaseRegister = ({ ...others }) => {
                                     name="lname"
                                     type="text"
                                     defaultValue=""
+                                    value={values.lname}
+                                    onChange={handleChange}
                                     sx={{ ...theme.typography.customInput }}
                                 />
                             </Grid>
@@ -291,6 +310,7 @@ const FirebaseRegister = ({ ...others }) => {
                                     type="submit"
                                     variant="contained"
                                     color="secondary"
+                                    onClick={() => register(values)}
                                 >
                                     Sign up
                                 </Button>
