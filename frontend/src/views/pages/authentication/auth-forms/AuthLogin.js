@@ -35,7 +35,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
 import axios from 'axios';
-import { register, login, logout } from '../../../../services/auth.service';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
