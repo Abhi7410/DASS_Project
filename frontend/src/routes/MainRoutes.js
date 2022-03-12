@@ -5,6 +5,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import { decomposeColor } from '@mui/system';
 import backgrounds from 'views/plans';
+import AdminPage from 'views/adminpage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -17,6 +18,8 @@ const UtilsImage = Loadable(lazy(() => import('views/utilities/Image')));
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
+const Admin = Loadable(lazy(() => import('views/adminpage/index')));
+const UserVideos = Loadable(lazy(() => import('views/user_profile/index')));
 
 // sample page routing
 const Demonstrate = Loadable(lazy(() => import('views/how_to')));
@@ -80,6 +83,14 @@ const MainRoutes = {
         {
             path: '/user/social-profile',
             element: <Profile />
+        },
+        {
+            path: '/user/admin-page',
+            element: <Admin />
+        },
+        {
+            path: '/user/user-videos',
+            element: <UserVideos />
         }
     ]
 };

@@ -1,9 +1,10 @@
 // assets
-import { IconKey } from '@tabler/icons';
+import { IconKey, IconUser } from '@tabler/icons';
 
 // constant
 const icons = {
-    IconKey
+    IconKey,
+    IconUser
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -14,6 +15,14 @@ const pages = {
     caption: 'Pages Caption',
     type: 'group',
     children: [
+        {
+            id: 'user-admin-page',
+            title: 'Admin Page',
+            type: 'item',
+            url: '/user/admin-page',
+            icon: icons.IconUser,
+            breadcrumbs: false
+        },
         {
             id: 'authentication',
             title: 'Authentication',
