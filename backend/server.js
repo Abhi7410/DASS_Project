@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 4000;
 
 import auth from "./middleware/auth.js";
 import UserRouter from "./routes/Users.js";
+import UploadRouter from "./routes/Upload.js";
 //app.use(cors());
 app.use(
   cors({
@@ -29,7 +30,8 @@ connection.once("open", function () {
 // setup API endpoints
 
 app.use("/user", UserRouter);
-
+app.use("/upload", UploadRouter);
+app.use("/uploads", express.static("uploads"));
 app.listen(PORT, function () {
   console.log("Server is running on Port: " + PORT);
 });
