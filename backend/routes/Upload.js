@@ -19,9 +19,31 @@ const storageEngine = multer.diskStorage({
     );
   },
 });
+function login() {
+  const url = "http://canvas.iiit.ac.in/lipsyncuc3/auth/login";
 
+  const params = new URLSearchParams();
+  params.append("username", "3davatar@lipsync.com");
+  params.append("password", "password");
+
+  const config = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
+
+  axios
+    .post(url, params, config)
+    .then((result) => {
+      console.log("Success");
+      cur_token = result.data.access_token;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 const fileFilter = (req, file, callback) => {
-  let pattern = /jpg|png|svg/; // reqex
+  let pattern = /jpg|png|svg|m4a|mp4/; // reqex
 
   if (pattern.test(path.extname(file.originalname))) {
     callback(null, true);
@@ -34,8 +56,8 @@ const upload = multer({
   fileFilter,
 });
 router.post("/upload", upload.single("uploadedFile"), (req, res) => {
-  console.log("hi");
-  console.log(req);
+  console.log("Upload complete");
+  // console.log(req);
   //   console.log(req.file);
   res.status(200).json(req.file.path);
 });
@@ -44,15 +66,42 @@ router.post("/add", (req, res) => {
   //   console.log("hi");
   //   console.log(req);
 
+  const audio_regex = /m4a/;
+  const video_regex = /mp4/;
+  const image_regex = /jpg|png|svg/;
+
+  var type;
+  if (audio_regex.test(path.extname(req.body.path))) {
+    type = "audio";
+  } else if (video_regex.test(path.extname(req.body.path))) {
+    type = "video";
+  } else if (image_regex.test(path.extname(req.body.path))) {
+    type = "image";
+  } else {
+    console.log(req.body);
+    return res.status(400).send("Invalid extension");
+  }
   const newFile = new File({
     name: req.body.name,
     path: req.body.path,
     purpose: req.body.purpose,
+    type: type,
   });
   newFile
     .save()
     .then((file) => {
       res.status(200).json(file);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
+});
+
+router.get("/get_files", (req, res) => {
+  File.find({})
+    .then((files) => {
+      res.status(200).json(files);
     })
     .catch((err) => {
       console.log(err);
@@ -97,14 +146,29 @@ router.post("/sync", (req, res) => {
     "Authorization: bearer " + cur_token,
     "accept: application/json",
   ]);
+  console.log("Body is");
+  console.log(req.body);
+  const audio_path = req.body.audio_path;
+  const video_path = req.body.video_path;
+  if (!fs.existsSync(audio_path) || !fs.existsSync(video_path)) {
+    res.status(400).send("File not found");
+    return;
+  }
+
+  // return res.status(2011).send("ok");
   curl.setOpt(Curl.option.HTTPPOST, [
-    { name: "audio", file: "./uploads/vaudio.m4a" },
-    { name: "video", file: "./uploads/vvideo.mp4" },
+    { name: "audio", file: "./" + audio_path },
+    { name: "video", file: "./" + video_path },
     // { name: "input-name2", contents: "field-contents" },
   ]);
 
   curl.on("end", function (statusCode, body, headers) {
     console.log("Status:", statusCode);
+    if (parseInt(statusCode) === 401) {
+      console.log("Please try again");
+      login();
+    }
+
     console.log("Headers:", headers);
     console.log("Body:", body);
     res.status(200).json(body);
@@ -112,6 +176,7 @@ router.post("/sync", (req, res) => {
   });
   curl.on("error", function (err) {
     console.log("error", err);
+    console.log("NOOO");
     close();
   });
   curl.perform();

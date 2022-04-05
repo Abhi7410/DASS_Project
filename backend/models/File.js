@@ -24,6 +24,10 @@ const FileSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  type: {
+    type: String,
+    required: true,
+  },
 });
 
 const File = model("File", FileSchema);
