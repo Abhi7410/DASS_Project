@@ -227,11 +227,13 @@ const UIColor = () => {
                         </Grid>
                     </SubCard>
                 </Grid>
-                <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2 }}>
-                    <Button sx={{ color: 'black' }} onClick={() => send4lipsync()}>
-                        Send
-                    </Button>
-                </Box>
+                <Grid item xs={12}>
+                    <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2, marginLeft: 85 }}>
+                        <Button sx={{ color: 'black' }} onClick={() => send4lipsync()}>
+                            Send
+                        </Button>
+                    </Box>
+                </Grid>
             </Grid>
         </MainCard>
     );
