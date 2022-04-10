@@ -32,6 +32,10 @@ connection.once("open", function () {
 app.use("/user", UserRouter);
 app.use("/upload", UploadRouter);
 app.use("/uploads", express.static("uploads"));
+app.use(function (req, res, next) {
+  res.setTimeout(0);
+  next();
+});
 app.listen(PORT, function () {
   console.log("Server is running on Port: " + PORT);
 });

@@ -6,6 +6,7 @@ import fs from "fs";
 import File from "../models/File.js";
 import axios from "axios";
 import FormData from "form-data";
+import http from "http";
 import { Curl } from "node-libcurl";
 let cur_token =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNmNjZWJiMGYtMWNmNy00NWVkLTk3MDItOWM2NDQ3MDdlOGVmIiwiYXVkIjoiZmFzdGFwaS11c2VyczphdXRoIiwiZXhwIjoxNjQ5MTQ5NTkyfQ.i7PAr4jyNOxfXmdXtUyJXgv6ZdC2sxAmQ-uWXZZAHpg";
@@ -113,7 +114,7 @@ router.get("/get_user", (req, res) => {
   //   console.log("hi");
   //   console.log(req);
 
-  const url = "http://canvas.iiit.ac.in/lipsyncuc3/users/me";
+  const url = "http://4baa-34-67-29-245.ngrok.io/";
 
   axios
     .get(url, {
@@ -130,6 +131,35 @@ router.get("/get_user", (req, res) => {
       console.log(err);
       res.status(400).send(err);
     });
+});
+router.post("/modelize", async (req, res) => {
+  let url = "http://7380-35-188-81-199.ngrok.io/";
+
+  const formData = new FormData();
+  formData.append("file", fs.createReadStream("./uploads/diff_refimg.png"));
+  // formData.append("file2", fs.createReadStream("./uploads/gt.mp4"));
+  try {
+    const getFile = await axios.post(url, formData, {
+      headers: {
+        ...formData.getHeaders(),
+      },
+    });
+    console.log(getFile.data);
+    const file = fs.createWriteStream("./uploads/file.mp4");
+    const request = http.get(url + "uploads/result.mp4", function (response) {
+      response.pipe(file);
+      // after download completed close filestream
+      file.on("finish", () => {
+        file.close();
+        console.log("Download Completed");
+        axios.post(url + "del_result");
+        res.status(200).json(getFile.data);
+      });
+    });
+  } catch (e) {
+    // console.log(e, "getFileError");
+    res.status(400).send(e);
+  }
 });
 
 router.post("/sync", (req, res) => {
