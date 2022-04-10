@@ -22,7 +22,6 @@ const storageEngine = multer.diskStorage({
 });
 function login() {
   const url = "http://canvas.iiit.ac.in/lipsyncuc3/auth/login";
-
   const params = new URLSearchParams();
   params.append("username", "3davatar@lipsync.com");
   params.append("password", "password");
@@ -110,11 +109,28 @@ router.get("/get_files", (req, res) => {
     });
 });
 
+function ensure_login() {
+  const url = "http://canvas.iiit.ac.in/lipsyncuc3/users/me";
+  axios
+    .get(url, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "bearer " + cur_token,
+      },
+    })
+    .then((response) => {
+      console.log("Already Logged in");
+    })
+    .catch((err) => {
+      console.log("Could not log in, logging in now!");
+      login();
+    });
+}
 router.get("/get_user", (req, res) => {
   //   console.log("hi");
   //   console.log(req);
 
-  const url = "http://4baa-34-67-29-245.ngrok.io/";
+  const url = "http://canvas.iiit.ac.in/lipsyncuc3/users/me";
 
   axios
     .get(url, {
@@ -133,134 +149,91 @@ router.get("/get_user", (req, res) => {
     });
 });
 router.post("/modelize", async (req, res) => {
-  let url = "http://7380-35-188-81-199.ngrok.io/";
-
+  ensure_login();
+  // Check if eq has audio_path
+  if (req.body.audio_path == null || req.body.image_path == null) {
+    return res.status(400).send("Files not sent properly");
+  }
+  if (
+    !fs.existsSync(req.body.audio_path) ||
+    !fs.existsSync(req.body.image_path)
+  ) {
+    return res.status(400).send("Files not found");
+  }
+  let url = "http://4a12-35-187-169-231.ngrok.io/";
   const formData = new FormData();
-  formData.append("file", fs.createReadStream("./uploads/diff_refimg.png"));
-  // formData.append("file2", fs.createReadStream("./uploads/gt.mp4"));
+  formData.append("file", fs.createReadStream(req.body.image_path));
   try {
+    console.log("Beginning");
     const getFile = await axios.post(url, formData, {
       headers: {
         ...formData.getHeaders(),
       },
     });
     console.log(getFile.data);
-    const file = fs.createWriteStream("./uploads/file.mp4");
+    const interm_path = "./uploads/interm.mp4";
+    const file = fs.createWriteStream(interm_path);
     const request = http.get(url + "uploads/result.mp4", function (response) {
       response.pipe(file);
       // after download completed close filestream
       file.on("finish", () => {
+        console.log("Lipsyncing");
         file.close();
         console.log("Download Completed");
         axios.post(url + "del_result");
-        res.status(200).json(getFile.data);
+
+        const url2 = "http://canvas.iiit.ac.in/lipsyncuc3/predict";
+        const curl = new Curl();
+        const close = curl.close.bind(curl);
+
+        curl.setOpt(Curl.option.URL, url2);
+        curl.setOpt(Curl.option.HTTPHEADER, [
+          "Content-type: multipart/form-data",
+          "Authorization: bearer " + cur_token,
+          "accept: application/json",
+        ]);
+
+        const audio_path = req.body.audio_path;
+        const video_path = interm_path;
+        if (!fs.existsSync(audio_path) || !fs.existsSync(video_path)) {
+          res.status(400).send("File not found");
+          return;
+        }
+        curl.setOpt(Curl.option.HTTPPOST, [
+          { name: "audio", file: "./" + audio_path },
+          { name: "video", file: "./" + video_path },
+        ]);
+
+        curl.on("end", function (statusCode, body, headers) {
+          console.log("Status:", statusCode);
+          if (parseInt(statusCode) === 401) {
+            console.log("Please try again");
+            login();
+          }
+          console.log("Headers:", headers);
+          console.log("Body:", body);
+          var obj = JSON.parse(body);
+          var keys = Object.keys(obj);
+          console.log("Now printing just the url");
+          console.log(obj[keys[0]]);
+          console.log("Printing over");
+          var obj2 = { url: obj[keys[0]] };
+          res.status(200).json(obj2);
+          close();
+        });
+        curl.on("error", function (err) {
+          console.log("error", err);
+          console.log("NOOO");
+          close();
+        });
+        curl.perform();
+        console.log("Over");
       });
     });
   } catch (e) {
     // console.log(e, "getFileError");
     res.status(400).send(e);
   }
-});
-
-router.post("/sync", (req, res) => {
-  //   console.log("hi");
-  //   console.log(req);
-
-  const url = "http://canvas.iiit.ac.in/lipsyncuc3/predict";
-  const curl = new Curl();
-  const close = curl.close.bind(curl);
-
-  curl.setOpt(Curl.option.URL, url);
-  curl.setOpt(Curl.option.HTTPHEADER, [
-    "Content-type: multipart/form-data",
-    "Authorization: bearer " + cur_token,
-    "accept: application/json",
-  ]);
-  console.log("Body is");
-  console.log(req.body);
-  const audio_path = req.body.audio_path;
-  const video_path = req.body.video_path;
-  if (!fs.existsSync(audio_path) || !fs.existsSync(video_path)) {
-    res.status(400).send("File not found");
-    return;
-  }
-
-  // return res.status(2011).send("ok");
-  curl.setOpt(Curl.option.HTTPPOST, [
-    { name: "audio", file: "./" + audio_path },
-    { name: "video", file: "./" + video_path },
-    // { name: "input-name2", contents: "field-contents" },
-  ]);
-
-  curl.on("end", function (statusCode, body, headers) {
-    console.log("Status:", statusCode);
-    if (parseInt(statusCode) === 401) {
-      console.log("Please try again");
-      login();
-    }
-
-    console.log("Headers:", headers);
-    console.log("Body:", body);
-    res.status(200).json(body);
-    close();
-  });
-  curl.on("error", function (err) {
-    console.log("error", err);
-    console.log("NOOO");
-    close();
-  });
-  curl.perform();
-
-  console.log("Over");
-  // fs.readFile("./uploads/new.mp4", function (err, video) {
-  //   if (err) throw err;
-  //   fs.readFile("./uploads/Recording.m4a", function (err, audio) {
-  //     if (err) throw err;
-  //     var bodyFormData = new FormData();
-
-  //     bodyFormData.append("video", video.toString("binary"), "new.mp4");
-  //     bodyFormData.append("audio", audio.toString("binary"), "Recording.m4a");
-
-  //     // axios
-  //     //   .post(url, {
-  //     //     headers: {
-  //     // "Content-type": "multipart/form-data",
-  //     // Authorization: "bearer " + cur_token,
-  //     // accept: "application/json",
-  //     //     },
-  //     //     data: bodyFormData,
-  //     //   })
-  //     //   .then((response) => {
-  //     //     console.log(response.data);
-  //     //     res.status(200).json(response.data);
-  //     //   })
-  //     //   .catch((err) => {
-  //     //     console.log(err);
-  //     //     res.status(400).send(err);
-  //     //   });
-
-  //     // axios({
-  //     //   method: "post",
-  //     //   url: url,
-  //     //   data: bodyFormData,
-  //     //   headers: {
-  //     //     "Content-type": "multipart/form-data",
-  //     //     Authorization: "bearer " + cur_token,
-  //     //     accept: "application/json",
-  //     //   },
-  //     // })
-  //     //   .then(function (response) {
-  //     //     //handle success
-  //     //     console.log(response);
-  //     //     res.status(200).json(response.data);
-  //     //   })
-  //     //   .catch(function (response) {
-  //     //     //handle error
-  //     //     console.log(response);
-  //     //     res.status(400).send(response);
-  //     //   });
-  //   });
-  // });
 });
 
 export default router;

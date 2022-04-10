@@ -22,3 +22,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /.idea/
+frontend/yarn.lock
+backend/yarn.lock

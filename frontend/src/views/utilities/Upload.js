@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react';
 import { Box, Card, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-
+import LoadingButton from '@mui/lab/LoadingButton';
+import SendIcon from '@mui/icons-material/Send';
+import Stack from '@mui/material/Stack';
 // project imports
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
@@ -63,24 +65,27 @@ const UIColor = () => {
     const [selectedImage, setSelectedImage] = useState({ _id: -1 });
     const [selectedAudio, setSelectedAudio] = useState({ _id: -1 });
     const [selectedVideo, setSelectedVideo] = useState({ _id: -1 });
+    const [loading, setLoading] = useState(false);
 
     function send4lipsync() {
-        if (selectedImage._id === -1 || selectedAudio._id === -1 || selectedVideo._id === -1) {
+        if (selectedImage._id === -1 || selectedAudio._id === -1) {
             alert('Please select all the files');
             return;
         }
+        setLoading(true);
         const data = {
             audio_path: selectedAudio.path,
-            image_path: selectedImage.path,
-            video_path: selectedVideo.path
+            image_path: selectedImage.path
         };
         axios
-            .post('http://localhost:4000/upload/sync', data)
+            .post('http://localhost:4000/upload/modelize', data)
             .then((res) => {
                 console.log(res.data);
+                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
+                setLoading(false);
             });
     }
 
@@ -97,7 +102,7 @@ const UIColor = () => {
     }, []);
     return (
         <MainCard title="Media Upload" secondary={<SecondaryAction link="https://next.material-ui.com/system/palette/" />}>
-            <Grid container spacing={gridSpacing}>
+            <Grid container spacing={gridSpacing} alignItems="center" justifyContent="center">
                 <Grid item xs={12}>
                     <SubCard title="Image Upload">
                         <Grid container spacing={gridSpacing}>
@@ -227,12 +232,19 @@ const UIColor = () => {
                         </Grid>
                     </SubCard>
                 </Grid>
-                <Grid item xs={12}>
-                    <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2, marginLeft: 85 }}>
-                        <Button sx={{ color: 'black' }} onClick={() => send4lipsync()}>
-                            Send
-                        </Button>
-                    </Box>
+                <Grid item xs={1} alignContent="center" justifyContent="center">
+                    {/* <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2, marginLeft: 85 }}> */}
+                    <LoadingButton
+                        onClick={() => send4lipsync()}
+                        endIcon={<SendIcon />}
+                        loading={loading}
+                        loadingPosition="end"
+                        variant="contained"
+                    >
+                        Send
+                    </LoadingButton>
+
+                    {/* </Box> */}
                 </Grid>
             </Grid>
         </MainCard>

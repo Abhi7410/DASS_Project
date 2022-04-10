@@ -10,7 +10,7 @@
         "@emotion/styled": "^11.3.0",
         "@material-ui/pickers": "^3.3.10",
         "@mui/icons-material": "^5.0.3",
-        "@mui/lab": "^5.0.0-alpha.50",
+        "@mui/lab": "^5.0.0-alpha.76",
         "@mui/material": "^5.0.3",
         "@mui/styles": "^5.0.1",
         "@mui/system": "^5.0.3",

@@ -32,12 +32,10 @@
         "import/order": 0,
         "no-console": 0,
         "no-underscore-dangle": 0,
-        "prefer-template" : 0,
+        "prefer-template": 0,
         "jsx-a11y/anchor-is-valid": 0,
         "prefer-destructuring": 0,
         "no-shadow": 0,
-        "prefer-template": 0,
-        no-underscore-dangle : 0,
         "no-unused-vars": [
             1,
             {
