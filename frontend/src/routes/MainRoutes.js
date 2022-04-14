@@ -9,7 +9,7 @@ import AdminPage from 'views/adminpage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
-
+const Startpage = Loadable(lazy(() => import('views/pages/authentication/authentication3/Startpage')));
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
