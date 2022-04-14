@@ -69,6 +69,7 @@ const FirebaseLogin = ({ ...others }) => {
                 console.log(response);
                 if (response.data.token) {
                     localStorage.setItem('user', JSON.stringify(response.data.token));
+                    alert(response.data.token);
                 }
                 return response.data;
             });

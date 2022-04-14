@@ -77,6 +77,7 @@ router.post("/register", async (req, res) => {
       lname,
       email,
       password: hash,
+      user_type,
     });
 
     const savedUser = await newUser.save();
@@ -85,6 +86,7 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign({ id: savedUser._id }, JWT_SECRET, {
       expiresIn: 3600,
     });
+    savedUser.endsWith("@iiit.ac.in") ? (user_type = "admin") : (user_type = "user");
 
     res.status(200).json({
       token,
@@ -92,6 +94,7 @@ router.post("/register", async (req, res) => {
         id: savedUser.id,
         name: savedUser.name,
         email: savedUser.email,
+        user_type: savedUser.user_type,
       },
     });
   } catch (e) {
