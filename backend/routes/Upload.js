@@ -7,10 +7,17 @@ import File from "../models/File.js";
 import axios from "axios";
 import FormData from "form-data";
 import http from "http";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import sleep from "sleep-promise";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 import { Curl } from "node-libcurl";
 let cur_token =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNmNjZWJiMGYtMWNmNy00NWVkLTk3MDItOWM2NDQ3MDdlOGVmIiwiYXVkIjoiZmFzdGFwaS11c2VyczphdXRoIiwiZXhwIjoxNjQ5MTQ5NTkyfQ.i7PAr4jyNOxfXmdXtUyJXgv6ZdC2sxAmQ-uWXZZAHpg";
-
+const ngrok_URL = "http://11f9-34-67-102-196.ngrok.io/";
 const storageEngine = multer.diskStorage({
   destination: "./uploads/",
   filename: function (req, file, callback) {
@@ -43,7 +50,7 @@ function login() {
     });
 }
 const fileFilter = (req, file, callback) => {
-  let pattern = /jpg|png|svg|m4a|mp4/; // reqex
+  let pattern = /jpeg|jpg|png|svg|m4a|mp4/; // reqex
 
   if (pattern.test(path.extname(file.originalname))) {
     callback(null, true);
@@ -148,6 +155,26 @@ router.get("/get_user", (req, res) => {
       res.status(400).send(err);
     });
 });
+
+// function get(url, resolve, reject) {
+//   http.get(url, (res) => {
+//     // if any other status codes are returned, those needed to be added here
+//     // console.log("Url: " + url);
+//     // console.log("Status code: " + res.statusCode);
+//     if (res.statusCode === 301 || res.statusCode === 302) {
+//       return get(res.headers.location, resolve, reject);
+//     }
+//     return url;
+//   });
+// }
+
+router.post("/test", async (req, res) => {
+  var obj2 = { url: "http://localhost:4000/uploads/result.mp4" };
+  // Sleep for 5 seconds
+  await sleep(5000);
+  res.status(200).json(obj2);
+});
+
 router.post("/modelize", async (req, res) => {
   ensure_login();
   // Check if eq has audio_path
@@ -160,7 +187,7 @@ router.post("/modelize", async (req, res) => {
   ) {
     return res.status(400).send("Files not found");
   }
-  let url = "http://4a12-35-187-169-231.ngrok.io/";
+  let url = ngrok_URL;
   const formData = new FormData();
   formData.append("file", fs.createReadStream(req.body.image_path));
   try {
@@ -179,7 +206,7 @@ router.post("/modelize", async (req, res) => {
       file.on("finish", () => {
         console.log("Lipsyncing");
         file.close();
-        console.log("Download Completed");
+        console.log("Download of result Completed");
         axios.post(url + "del_result");
 
         const url2 = "http://canvas.iiit.ac.in/lipsyncuc3/predict";
@@ -215,11 +242,23 @@ router.post("/modelize", async (req, res) => {
           var obj = JSON.parse(body);
           var keys = Object.keys(obj);
           console.log("Now printing just the url");
-          console.log(obj[keys[0]]);
-          console.log("Printing over");
-          var obj2 = { url: obj[keys[0]] };
-          res.status(200).json(obj2);
-          close();
+          ensure_login();
+          const final_result = fs.createWriteStream("./uploads/result.mp4");
+          const request2 = http.get(obj[keys[0]], function (response) {
+            http.get(response.headers.location, (res2) => {
+              res2.pipe(final_result);
+              // after download completed close filestream
+              final_result.on("finish", () => {
+                final_result.close();
+                console.log("Download Completed");
+                console.log(obj[keys[0]]);
+                console.log("Printing over");
+                var obj2 = { url: "http://localhost:4000/uploads/result.mp4" };
+                res.status(200).json(obj2);
+                close();
+              });
+            });
+          });
         });
         curl.on("error", function (err) {
           console.log("error", err);

@@ -24,3 +24,6 @@ yarn-error.log*
 /.idea/
 frontend/yarn.lock
 backend/yarn.lock
+backend/yarn.lock
+backend/uploads/interm.mp4
+frontend/yarn.lock

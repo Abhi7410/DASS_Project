@@ -67,6 +67,11 @@ const UIColor = () => {
     const [selectedVideo, setSelectedVideo] = useState({ _id: -1 });
     const [loading, setLoading] = useState(false);
 
+    const openInNewTab = (url) => {
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+        if (newWindow) newWindow.opener = null;
+    };
+
     function send4lipsync() {
         if (selectedImage._id === -1 || selectedAudio._id === -1) {
             alert('Please select all the files');
@@ -81,6 +86,9 @@ const UIColor = () => {
             .post('http://localhost:4000/upload/modelize', data)
             .then((res) => {
                 console.log(res.data);
+                // openInNewTab(res.data.url);
+                window.focus();
+                window.open(res.data.url, '_blank');
                 setLoading(false);
             })
             .catch((err) => {
