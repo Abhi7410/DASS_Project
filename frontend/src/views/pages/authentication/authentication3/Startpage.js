@@ -26,13 +26,13 @@ const Startpage = () => {
                             <h1> </h1>
                         </Grid>
                         <Grid item xs={7}>
-                            <h1>Hello,</h1>
-                            <Typography variant="h1" color="textSecondary">
-                                Welcome to the new way <br /> to your business.
+                            <h1>Welcome!</h1>
+                            <Typography variant="h2" color="textSecondary">
+                                Change your conception of computer vision and its functionalities through our website.
                             </Typography>
                             <br />
                             <Typography variant="h3" color="textSecondary">
-                                We are glad to see you here. Lol
+                                We love that you are here!
                             </Typography>
                             <br />
                             <Grid container spacing={2}>
