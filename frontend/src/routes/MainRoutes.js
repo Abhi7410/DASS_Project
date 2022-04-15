@@ -9,12 +9,9 @@ import AdminPage from 'views/adminpage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
-<<<<<<< HEAD
 const Help = Loadable(lazy(() => import('views/help')));
 
-=======
 const Startpage = Loadable(lazy(() => import('views/pages/authentication/authentication3/Startpage')));
->>>>>>> 58d501a51ea3e54f1445354b7bc2ead4fe5acd01
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -24,6 +21,7 @@ const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
 const Admin = Loadable(lazy(() => import('views/adminpage/index')));
+const Results = Loadable(lazy(() => import('views/resultspage/index')));
 const UserVideos = Loadable(lazy(() => import('views/user_profile/index')));
 
 // sample page routing
@@ -97,6 +95,10 @@ const MainRoutes = {
         {
             path: '/user/admin-page',
             element: <Admin />
+        },
+        {
+            path: '/user/results-page',
+            element: <Results />
         },
         {
             path: '/user/user-videos',

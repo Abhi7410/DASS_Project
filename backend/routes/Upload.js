@@ -21,7 +21,7 @@ import { Curl } from "node-libcurl";
 import { exit } from "process";
 let cur_token =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNmNjZWJiMGYtMWNmNy00NWVkLTk3MDItOWM2NDQ3MDdlOGVmIiwiYXVkIjoiZmFzdGFwaS11c2VyczphdXRoIiwiZXhwIjoxNjQ5MTQ5NTkyfQ.i7PAr4jyNOxfXmdXtUyJXgv6ZdC2sxAmQ-uWXZZAHpg";
-const ngrok_URL = "http://0619-35-196-74-232.ngrok.io/";
+const ngrok_URL = "http://7324-35-203-130-238.ngrok.io/";
 const storageEngine = multer.diskStorage({
   destination: "./uploads/",
   filename: function (req, file, callback) {

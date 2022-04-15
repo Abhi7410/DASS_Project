@@ -57,7 +57,7 @@ const Profile = () => {
                     <Grid container justifyContent="center" direction="row" spacing={2}>
                         {/* Left Column */}
                         <Grid item xs={5}>
-                            <Grid spacing={2} container direction="column" justifyContent="center">
+                            <Grid spacing={2} container direction="column" justifyContent="center" marginTop="2rem">
                                 <Grid item xs={12}>
                                     <TextField fullWidth style={{}} id="outlined-error" label="Name" defaultValue="John" />
                                 </Grid>
@@ -76,14 +76,13 @@ const Profile = () => {
                         </Grid>
                         {/* Right Column */}
                         <Grid item xs={5}>
-                            <Grid spacing={2} container direction="column" justifyContent="center">
+                            <Grid spacing={2} container direction="column" justifyContent="center" marginTop="2rem">
                                 <Grid item xs={12}>
                                     <TextField fullWidth id="outlined-error" label="Country" defaultValue="India" />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField fullWidth style={{}} id="outlined-error" label="Date of Birth" defaultValue="Nov 22, 2002" />
                                 </Grid>
-
                                 <Grid item xs={12}>
                                     <TextField disabled fullWidth id="outlined-error" label="Current Plan" defaultValue="Hello World" />
                                 </Grid>

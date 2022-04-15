@@ -24,6 +24,10 @@ const ResultSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  seen: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Result = model("Result", ResultSchema);

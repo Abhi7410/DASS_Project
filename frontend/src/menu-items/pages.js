@@ -12,7 +12,7 @@ const icons = {
 const pages = {
     id: 'pages',
     title: 'Pages',
-    caption: 'Pages Caption',
+    // caption: 'Pages Caption',
     type: 'group',
     children: [
         {
@@ -20,6 +20,14 @@ const pages = {
             title: 'Admin Page',
             type: 'item',
             url: '/user/admin-page',
+            icon: icons.IconUser,
+            breadcrumbs: false
+        },
+        {
+            id: 'user-results-page',
+            title: 'Results Page',
+            type: 'item',
+            url: '/user/results-page',
             icon: icons.IconUser,
             breadcrumbs: false
         },

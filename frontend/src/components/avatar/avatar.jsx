@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
     cameraIcon: {
         heigth: '4rem',
         width: '4rem',
-        position: 'absolute',
+        position: 'relative',
+        top: '-2.5rem',
         bottom: '0',
         right: '20px',
         backgroundColor: 'white',

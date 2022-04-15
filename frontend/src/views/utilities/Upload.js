@@ -279,7 +279,7 @@ const UIColor = () => {
                             variant="contained"
                             // margin-left="2rem"
                         >
-                            Download
+                            Open
                         </LoadingButton>
 
                         {/* </Box> */}

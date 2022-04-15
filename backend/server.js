@@ -4,7 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 const PORT = process.env.PORT || 4000;
-
+// const expressfileupload = require("express-fileupload");
 import auth from "./middleware/auth.js";
 import UserRouter from "./routes/Users.js";
 import UploadRouter from "./routes/Upload.js";
@@ -16,6 +16,7 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(expressfileupload());
 
 // Connection to MongoDB
 mongoose.connect(

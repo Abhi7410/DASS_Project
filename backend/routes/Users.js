@@ -7,7 +7,7 @@ import User from "../models/User.js";
 import { uuid } from "uuidv4";
 const JWT_SECRET = "sl_myJwtSecret";
 const router = Router();
-import userController from "../controllers/userController.js";
+// import userController from "../controllers/userController.js";
 // const userController = require("../controllers/userController");
 
 /**
@@ -16,9 +16,9 @@ import userController from "../controllers/userController.js";
  * @access  Public
  */
 
-router.post("/setProfilePic", userController.setProfilePic);
+// router.post("/setProfilePic", userController.setProfilePic);
 
-module.exports = router;
+// module.exports = router;/
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -38,7 +38,7 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw Error("Invalid credentials");
 
-    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: 3600 });
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "24h" });
     if (!token) throw Error("Couldnt sign the token");
 
     res.status(200).json({
