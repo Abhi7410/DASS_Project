@@ -9,6 +9,7 @@ import AdminPage from 'views/adminpage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const Help = Loadable(lazy(() => import('views/help')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -39,6 +40,10 @@ const MainRoutes = {
         {
             path: '/dashboard/default',
             element: <DashboardDefault />
+        },
+        {
+            path: '/dashboard/help',
+            element: <Help />
         },
         {
             path: '/utils/util-typography',
