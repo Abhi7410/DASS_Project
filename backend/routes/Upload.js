@@ -4,6 +4,7 @@ import path from "path";
 import multer from "multer";
 import fs from "fs";
 import File from "../models/File.js";
+import Result from "../models/Result.js";
 import axios from "axios";
 import FormData from "form-data";
 import http from "http";
@@ -17,9 +18,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 import { Curl } from "node-libcurl";
+import { exit } from "process";
 let cur_token =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNmNjZWJiMGYtMWNmNy00NWVkLTk3MDItOWM2NDQ3MDdlOGVmIiwiYXVkIjoiZmFzdGFwaS11c2VyczphdXRoIiwiZXhwIjoxNjQ5MTQ5NTkyfQ.i7PAr4jyNOxfXmdXtUyJXgv6ZdC2sxAmQ-uWXZZAHpg";
-const ngrok_URL = "http://b554-35-201-205-17.ngrok.io/";
+const ngrok_URL = "http://0619-35-196-74-232.ngrok.io/";
 const storageEngine = multer.diskStorage({
   destination: "./uploads/",
   filename: function (req, file, callback) {
@@ -68,8 +70,18 @@ router.post("/upload", auth, upload.single("uploadedFile"), (req, res) => {
   console.log("Upload complete");
   // console.log(req);
   //   console.log(req.file);
+
   res.status(200).json(req.file.path);
 });
+
+function ensureDirectoryExistence(filePath) {
+  var dirname = path.dirname(filePath);
+  if (fs.existsSync(dirname)) {
+    return true;
+  }
+  ensureDirectoryExistence(dirname);
+  fs.mkdirSync(dirname);
+}
 
 router.post("/add", auth, (req, res) => {
   //   console.log("hi");
@@ -78,32 +90,48 @@ router.post("/add", auth, (req, res) => {
   const audio_regex = /m4a/;
   const video_regex = /mp4/;
   const image_regex = /jpg|png|svg/;
-
+  const ext = path.extname(req.body.path);
   var type;
-  if (audio_regex.test(path.extname(req.body.path))) {
+  if (audio_regex.test(ext)) {
     type = "audio";
-  } else if (video_regex.test(path.extname(req.body.path))) {
+  } else if (video_regex.test(ext)) {
     type = "video";
-  } else if (image_regex.test(path.extname(req.body.path))) {
+  } else if (image_regex.test(ext)) {
     type = "image";
   } else {
     console.log(req.body);
     return res.status(400).send("Invalid extension");
   }
-  const newFile = new File({
-    name: req.body.name,
-    path: req.body.path,
-    purpose: req.body.purpose,
-    type: type,
-    user: req.user.id,
-    id: uuid(),
-  });
+  let new_path = "./uploads/" + req.user.id + "/files/" + uuid() + "_";
+  ensureDirectoryExistence(new_path);
+  new_path += req.body.name + ext;
+  fs.rename("./" + req.body.path, new_path, () => {
+    const newFile = new File({
+      name: req.body.name,
+      path: new_path,
+      purpose: req.body.purpose,
+      type: type,
+      user: req.user.id,
+      id: uuid(),
+    });
 
-  console.log(newFile);
-  newFile
-    .save()
-    .then((file) => {
-      res.status(200).json(file);
+    console.log(newFile);
+    newFile
+      .save()
+      .then((file) => {
+        res.status(200).json(file);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(400).send(err);
+      });
+  });
+});
+
+router.get("/get_files", auth, (req, res) => {
+  File.find({ user: req.user.id })
+    .then((files) => {
+      res.status(200).json(files);
     })
     .catch((err) => {
       console.log(err);
@@ -111,10 +139,10 @@ router.post("/add", auth, (req, res) => {
     });
 });
 
-router.get("/get_files", auth, (req, res) => {
-  File.find({ user: req.user.id })
-    .then((files) => {
-      res.status(200).json(files);
+router.get("/get_result", auth, (req, res) => {
+  Result.find({ user: req.user.id })
+    .then((results) => {
+      res.status(200).json(results);
     })
     .catch((err) => {
       console.log(err);
@@ -252,7 +280,11 @@ router.post("/modelize", auth, async (req, res) => {
           var keys = Object.keys(obj);
           console.log("Now printing just the url");
           ensure_login();
-          const final_result = fs.createWriteStream("./uploads/result.mp4");
+          const final_name = uuid();
+          let saved_url =
+            "uploads/" + req.user.id + "/results/" + final_name + ".mp4";
+          ensureDirectoryExistence(saved_url);
+          const final_result = fs.createWriteStream("./" + saved_url);
           const request2 = http.get(obj[keys[0]], function (response) {
             http.get(response.headers.location, (res2) => {
               res2.pipe(final_result);
@@ -262,9 +294,25 @@ router.post("/modelize", auth, async (req, res) => {
                 console.log("Download Completed");
                 console.log(obj[keys[0]]);
                 console.log("Printing over");
-                var obj2 = { url: "http://localhost:4000/uploads/result.mp4" };
-                res.status(200).json(obj2);
-                close();
+                var obj2 = { url: "http://localhost:4000/" + saved_url };
+                const newResult = new Result({
+                  id: uuid(),
+                  name: req.body.name ? req.body.name : final_name,
+                  path: saved_url,
+                  user: req.user.id,
+                });
+
+                console.log(newResult);
+                newResult
+                  .save()
+                  .then((final_result) => {
+                    res.status(200).json(obj2);
+                    close();
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    res.status(400).send(err);
+                  });
               });
             });
           });

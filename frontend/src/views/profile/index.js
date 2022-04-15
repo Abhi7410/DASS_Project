@@ -16,6 +16,7 @@ import {
     Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import ReactDOM from 'react-dom';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import User1 from 'assets/images/users/user-round.svg';
@@ -23,8 +24,9 @@ import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import App from '../../App.jsx';
 // ==============================|| SAMPLE PAGE ||============================== //
-
+// ReactDOM.render(<App />, document.getElementById('root'));
 const Profile = () => {
     const theme = useTheme();
     const anchorRef = useRef(null);
@@ -46,25 +48,11 @@ const Profile = () => {
                                 Profile
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Avatar
-                                src={User1}
-                                sx={{
-                                    ...theme.typography.mediumAvatar,
-                                    // margin: '8px 0 8px 8px !important',
-                                    cursor: 'pointer',
-                                    width: '10rem',
-                                    height: 'auto',
-                                    display: 'block',
-                                    margin: '0 auto',
-                                    marginBottom: '4rem'
-                                }}
-                                ref={anchorRef}
-                                // aria-controls={open ? 'menu-list-grow' : undefined}
-                                // aria-haspopup="true"
-                                color="inherit"
-                            />
-                        </Grid>
+                    </Grid>
+                    <Grid justifyContent="center" marginTop="2rem" container spacing={2}>
+                        {/* <Grid item>
+                            <App />
+                        </Grid> */}
                     </Grid>
                     <Grid container justifyContent="center" direction="row" spacing={2}>
                         {/* Left Column */}

@@ -11,12 +11,12 @@ export default (req, res, next) => {
 
   try {
     // Verify token
-    // console.log(token);
+    console.log(token);
     const decoded = jwt.verify(token, JWT_SECRET);
 
     // Add user from payload
     User.findOne({ id: decoded.id }).then((user) => {
-      // console.log("User" + user);
+      console.log("User" + user);
       if (user == null) {
         return res
           .status(403)
