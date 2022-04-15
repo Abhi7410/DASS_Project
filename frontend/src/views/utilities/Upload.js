@@ -70,7 +70,7 @@ const UIColor = () => {
     const [selectedVideo, setSelectedVideo] = useState({ _id: -1 });
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
-    const [downloadURL, setDownloadURL] = useState('');
+    const [downloadINFO, setDownloadINFO] = useState([]);
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
         if (newWindow) newWindow.opener = null;
@@ -95,7 +95,8 @@ const UIColor = () => {
             .post('http://localhost:4000/upload/modelize', data, { headers: { 'x-access-token': localStorage.getItem('user') } })
             .then((res) => {
                 console.log(res.data);
-                setDownloadURL(res.data.url);
+                // setDownloadURL(res.data.url);
+                setDownloadINFO([res.data.url, res.data.id]);
                 setLoading(false);
             })
             .catch((err) => {
@@ -266,12 +267,18 @@ const UIColor = () => {
 
                     {/* </Box> */}
                 </Grid>
-                {downloadURL != '' ? (
+                {downloadINFO.length ? (
                     <Grid item xs={1} alignContent="center" justifyContent="center">
                         {/* <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2, marginLeft: 85 }}> */}
                         <LoadingButton
                             onClick={() => {
-                                window.open(downloadURL);
+                                const item2send = {
+                                    id: downloadINFO[1]
+                                };
+                                axios.post('http://localhost:4000/upload/mark_seen', item2send, {
+                                    headers: { 'x-access-token': localStorage.getItem('user') }
+                                });
+                                window.open(downloadINFO[0]);
                             }}
                             endIcon={<SaveIcon />}
                             loading={loading}

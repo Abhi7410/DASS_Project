@@ -21,7 +21,7 @@ import { Curl } from "node-libcurl";
 import { exit } from "process";
 let cur_token =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNmNjZWJiMGYtMWNmNy00NWVkLTk3MDItOWM2NDQ3MDdlOGVmIiwiYXVkIjoiZmFzdGFwaS11c2VyczphdXRoIiwiZXhwIjoxNjQ5MTQ5NTkyfQ.i7PAr4jyNOxfXmdXtUyJXgv6ZdC2sxAmQ-uWXZZAHpg";
-const ngrok_URL = "http://7324-35-203-130-238.ngrok.io/";
+const ngrok_URL = "http://d575-34-87-178-188.ngrok.io/";
 const storageEngine = multer.diskStorage({
   destination: "./uploads/",
   filename: function (req, file, callback) {
@@ -310,7 +310,7 @@ router.post("/modelize", auth, async (req, res) => {
                 console.log("Download Completed");
                 console.log(obj[keys[0]]);
                 console.log("Printing over");
-                var obj2 = { url: "http://localhost:4000/" + saved_url };
+
                 const newResult = new Result({
                   id: uuid(),
                   name: req.body.name ? req.body.name : final_name,
@@ -322,6 +322,10 @@ router.post("/modelize", auth, async (req, res) => {
                 newResult
                   .save()
                   .then((final_result) => {
+                    var obj2 = {
+                      url: "http://localhost:4000/" + saved_url,
+                      id: final_result.id,
+                    };
                     res.status(200).json(obj2);
                     close();
                   })

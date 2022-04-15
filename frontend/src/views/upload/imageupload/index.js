@@ -71,11 +71,8 @@ const Image = () => {
                         console.log(res2);
                     });
             });
-    }
-    return (
-        <>
-            <Grid container spacing={2}>
-                {/* <Grid item xs={4}>
+        {
+            /* <Grid item xs={4}>
                     {item.img ? (
                         <Grid item xs={12}>
                             <img src={'http://localhost:4000/' + item.img} width="100" />
@@ -83,8 +80,12 @@ const Image = () => {
                     ) : (
                         ''
                     )}
-                </Grid> */}
-
+                </Grid> */
+        }
+    }
+    return (
+        <>
+            <Grid container spacing={2}>
                 <Grid item xs={4}>
                     <MainCard title="Choose File">
                         <form encType="multipart/form-data" onSubmit={handleFormSubmission} id="form">
@@ -107,13 +108,13 @@ const Image = () => {
                                         // vertically center text
                                     }}
                                 >
-                                    +
+                                    Add
                                 </Typography>
                             </button>{' '}
                         </form>
                         {/* */}
                     </MainCard>
-                    <Alert severity="success">Image uploaded successfully!</Alert>;
+                    {showadd && <Alert severity="success">Image uploaded successfully!</Alert>}
                 </Grid>
 
                 <Grid item xs={8}>
