@@ -10,14 +10,14 @@ import http from "http";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import sleep from "sleep-promise";
-
+import auth from "../middleware/auth.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 import { Curl } from "node-libcurl";
 let cur_token =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNmNjZWJiMGYtMWNmNy00NWVkLTk3MDItOWM2NDQ3MDdlOGVmIiwiYXVkIjoiZmFzdGFwaS11c2VyczphdXRoIiwiZXhwIjoxNjQ5MTQ5NTkyfQ.i7PAr4jyNOxfXmdXtUyJXgv6ZdC2sxAmQ-uWXZZAHpg";
-const ngrok_URL = "http://11f9-34-67-102-196.ngrok.io/";
+const ngrok_URL = "http://2175-35-185-39-90.ngrok.io/";
 const storageEngine = multer.diskStorage({
   destination: "./uploads/",
   filename: function (req, file, callback) {
@@ -171,7 +171,7 @@ router.get("/get_user", (req, res) => {
 router.post("/test", async (req, res) => {
   var obj2 = { url: "http://localhost:4000/uploads/result.mp4" };
   // Sleep for 5 seconds
-  await sleep(5000);
+  await sleep(2000);
   res.status(200).json(obj2);
 });
 

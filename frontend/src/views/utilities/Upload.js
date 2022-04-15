@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SendIcon from '@mui/icons-material/Send';
+import SaveIcon from '@mui/icons-material/Save';
 import Stack from '@mui/material/Stack';
 // project imports
 import SubCard from 'ui-component/cards/SubCard';
@@ -66,7 +67,7 @@ const UIColor = () => {
     const [selectedAudio, setSelectedAudio] = useState({ _id: -1 });
     const [selectedVideo, setSelectedVideo] = useState({ _id: -1 });
     const [loading, setLoading] = useState(false);
-
+    const [downloadURL, setDownloadURL] = useState('');
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
         if (newWindow) newWindow.opener = null;
@@ -87,8 +88,9 @@ const UIColor = () => {
             .then((res) => {
                 console.log(res.data);
                 // openInNewTab(res.data.url);
-                window.focus();
-                window.open(res.data.url, '_blank');
+                // window.focus();
+                // window.open(res.data.url, '_blank');
+                setDownloadURL(res.data.url);
                 setLoading(false);
             })
             .catch((err) => {
@@ -157,7 +159,7 @@ const UIColor = () => {
                         </Grid>
                     </SubCard>
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <SubCard title="Video Upload">
                         <Grid container spacing={gridSpacing}>
                             <Grid item xs={12} sm={6} md={4} lg={2}>
@@ -198,7 +200,7 @@ const UIColor = () => {
                             )}
                         </Grid>
                     </SubCard>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                     <SubCard title="Audio Upload">
                         <Grid container spacing={gridSpacing}>
@@ -254,6 +256,26 @@ const UIColor = () => {
 
                     {/* </Box> */}
                 </Grid>
+                {downloadURL != '' ? (
+                    <Grid item xs={1} alignContent="center" justifyContent="center">
+                        {/* <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2, marginLeft: 85 }}> */}
+                        <LoadingButton
+                            onClick={() => {
+                                window.open(downloadURL);
+                            }}
+                            endIcon={<SaveIcon />}
+                            loading={loading}
+                            loadingPosition="end"
+                            variant="contained"
+                        >
+                            Download
+                        </LoadingButton>
+
+                        {/* </Box> */}
+                    </Grid>
+                ) : (
+                    ''
+                )}
             </Grid>
         </MainCard>
     );
