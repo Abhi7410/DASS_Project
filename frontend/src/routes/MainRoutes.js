@@ -9,7 +9,12 @@ import AdminPage from 'views/adminpage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+<<<<<<< HEAD
+const Help = Loadable(lazy(() => import('views/help')));
+
+=======
 const Startpage = Loadable(lazy(() => import('views/pages/authentication/authentication3/Startpage')));
+>>>>>>> 58d501a51ea3e54f1445354b7bc2ead4fe5acd01
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -40,6 +45,10 @@ const MainRoutes = {
         {
             path: '/dashboard/default',
             element: <DashboardDefault />
+        },
+        {
+            path: '/dashboard/help',
+            element: <Help />
         },
         {
             path: '/utils/util-typography',
