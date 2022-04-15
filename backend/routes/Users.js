@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import auth from "../middleware/auth.js";
 // User Model
 import User from "../models/User.js";
-
+import { uuid } from "uuidv4";
 const JWT_SECRET = "sl_myJwtSecret";
 const router = Router();
 
@@ -32,13 +32,13 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw Error("Invalid credentials");
 
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: 3600 });
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: 3600 });
     if (!token) throw Error("Couldnt sign the token");
 
     res.status(200).json({
       token,
       user: {
-        id: user._id,
+        id: user.id,
         name: user.name,
         email: user.email,
       },
@@ -73,28 +73,33 @@ router.post("/register", async (req, res) => {
     if (!hash) throw Error("Something went wrong hashing the password");
 
     const newUser = new User({
+      id: uuid(),
       fname,
       lname,
       email,
       password: hash,
+      user_type: "admin",
     });
 
     const savedUser = await newUser.save();
     if (!savedUser) throw Error("Something went wrong saving the user");
 
-    const token = jwt.sign({ id: savedUser._id }, JWT_SECRET, {
+    const token = jwt.sign({ id: savedUser.id }, JWT_SECRET, {
       expiresIn: 3600,
     });
-
+    // savedUser.endsWith("@iiit.ac.in") ? (user_type = "admin") : (user_type = "user");
+    console.log(token);
     res.status(200).json({
       token,
       user: {
         id: savedUser.id,
         name: savedUser.name,
         email: savedUser.email,
+        user_type: savedUser.user_type,
       },
     });
   } catch (e) {
+    console.log(e);
     res.status(400).json({ error: e.message });
   }
 });

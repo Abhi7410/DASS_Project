@@ -9,8 +9,12 @@ import AdminPage from 'views/adminpage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+<<<<<<< HEAD
 const Help = Loadable(lazy(() => import('views/help')));
 
+=======
+const Startpage = Loadable(lazy(() => import('views/pages/authentication/authentication3/Startpage')));
+>>>>>>> 58d501a51ea3e54f1445354b7bc2ead4fe5acd01
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -27,6 +31,7 @@ const Demonstrate = Loadable(lazy(() => import('views/how_to')));
 const Plans = Loadable(lazy(() => import('views/plans')));
 const Profile = Loadable(lazy(() => import('views/profile')));
 const UploadImage = Loadable(lazy(() => import('views/upload/imageupload')));
+// import Startpage from 'views/pages/authentication/authentication3/Startpage';
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -35,7 +40,7 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <DashboardDefault />
+            element: <Startpage />
         },
         {
             path: '/dashboard/default',
@@ -50,7 +55,7 @@ const MainRoutes = {
             element: <UtilsTypography />
         },
         {
-            path: '/utils/upload-image',
+            path: '/utils/upload-file',
             element: <UploadImage />
         },
         {

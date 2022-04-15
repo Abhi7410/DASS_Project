@@ -43,6 +43,13 @@ const pages = {
                     type: 'item',
                     url: '/pages/register/register3',
                     target: true
+                },
+                {
+                    id: 'startpage',
+                    title: 'Start Page',
+                    type: 'item',
+                    url: '/pages/startpage',
+                    target: true
                 }
             ]
         }

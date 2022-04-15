@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-
+import User from "../models/User.js";
 const JWT_SECRET = "sl_myJwtSecret";
 
 export default (req, res, next) => {
@@ -11,11 +11,22 @@ export default (req, res, next) => {
 
   try {
     // Verify token
+    console.log(token);
     const decoded = jwt.verify(token, JWT_SECRET);
+
     // Add user from payload
-    req.user = decoded;
-    next();
+    User.findOne({ id: decoded.id }).then((user) => {
+      console.log("User" + user);
+      if (user == null) {
+        return res
+          .status(403)
+          .json({ msg: "Valid token, but user does not exist!" });
+      }
+      req.user = user;
+      next();
+    });
   } catch (e) {
-    res.status(400).json({ msg: "Token is not valid" });
+    // console.log("Noo");
+    res.status(401).json({ msg: "Token is not valid" });
   }
 };

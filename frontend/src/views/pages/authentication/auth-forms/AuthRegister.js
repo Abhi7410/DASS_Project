@@ -60,7 +60,7 @@ const FirebaseRegister = ({ ...others }) => {
                 password: values.password
             })
             .then((res) => {
-                localStorage.setItem('user', JSON.stringify(res.data.token));
+                localStorage.setItem('user', res.data.token);
                 console.log(res);
             });
     };
