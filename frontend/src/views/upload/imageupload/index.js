@@ -21,6 +21,7 @@ import DatePicker from '@mui/lab/DatePicker';
 import FileUpload from 'react-mui-fileuploader';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -31,6 +32,9 @@ const Image = () => {
     const [Name, setName] = useState('');
     const [Purpose, setPurpose] = useState('');
     const [curDate, setDate] = useState(new Date());
+    const [showadd, setAdd] = useState(null);
+    const handleAdd = () => setAdd(true);
+
     const handleFilesChange = (files) => {
         console.log(files);
         setAcceptedFiles(files);
@@ -51,7 +55,6 @@ const Image = () => {
                 console.log(res);
                 // setFilePath(res.data);
                 console.log('Form submitted');
-
                 const newFile = {
                     name: Name,
                     path: res.data,
@@ -62,6 +65,9 @@ const Image = () => {
                 axios
                     .post('http://localhost:4000/upload/add', newFile, { headers: { 'x-access-token': localStorage.getItem('user') } })
                     .then((res2) => {
+                        // YAHAN
+                        // <Alert severity="success">Image uploaded successfully!</Alert>;
+                        handleAdd();
                         console.log(res2);
                     });
             });
@@ -90,11 +96,12 @@ const Image = () => {
                                         // change background to light purple
                                         backgroundColor: 'transparent',
                                         // increase border radius
-                                        borderRadius: '10px',
+                                        // borderRadius: '10px',
                                         // increase font size
                                         // fontSize: '16.5rem',
                                         // change font color to white
                                         color: 'grey',
+
                                         // center text
                                         textAlign: 'center'
                                         // vertically center text
@@ -104,10 +111,11 @@ const Image = () => {
                                 </Typography>
                             </button>{' '}
                         </form>
-
                         {/* */}
                     </MainCard>
+                    <Alert severity="success">Image uploaded successfully!</Alert>;
                 </Grid>
+
                 <Grid item xs={8}>
                     <MainCard title="File Details">
                         <Typography variant="body2" container spacing={2}>

@@ -212,6 +212,22 @@ router.post("/test", auth, async (req, res) => {
   res.status(200).json(obj2);
 });
 
+router.post("/mark_seen", auth, (req, res) => {
+  console.log(req.body);
+  const result_id = req.body.id;
+  Result.findOne({ id: result_id, user: req.user.id })
+    .then((result) => {
+      result.seen = true;
+      result.save();
+      console.log("Marked seen");
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    });
+});
+
 router.post("/modelize", auth, async (req, res) => {
   ensure_login();
   // Check if eq has audio_path

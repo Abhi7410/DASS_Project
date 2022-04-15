@@ -99,7 +99,7 @@ const ResultPage = () => {
                                         {item.name}
                                     </Typography>
                                     <Typography to="/user/user-videos" sx={{ color: 'black' }}>
-                                        Uploaded by: {item.user}
+                                        Seen: {item.seen ? 'Yes' : 'No'}
                                     </Typography>
                                     {/* <Typography variant="body2" color="text.secondary">
                                         Tags:
@@ -108,6 +108,12 @@ const ResultPage = () => {
                                 <Grid item>
                                     <LoadingButton
                                         onClick={() => {
+                                            const item2send = {
+                                                id: item.id
+                                            };
+                                            axios.post('http://localhost:4000/upload/mark_seen', item2send, {
+                                                headers: { 'x-access-token': localStorage.getItem('user') }
+                                            });
                                             window.open('http://localhost:4000/' + item.path);
                                         }}
                                         endIcon={<SaveIcon />}

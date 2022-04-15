@@ -206,11 +206,17 @@ const NotificationList = () => {
                                             variant="contained"
                                             disableElevation
                                             onClick={() => {
-                                                window.open(`http://localhost:4000/${result.path}`, '_blank');
+                                                const item2send = {
+                                                    id: result.id
+                                                };
+                                                axios.post('http://localhost:4000/upload/mark_seen', item2send, {
+                                                    headers: { 'x-access-token': localStorage.getItem('user') }
+                                                });
+                                                window.open('http://localhost:4000/' + result.path);
                                             }}
                                             endIcon={<IconBrandTelegram stroke={1.5} size="1.3rem" />}
                                         >
-                                            Mail
+                                            View
                                         </Button>
                                     </Grid>
                                 </Grid>
