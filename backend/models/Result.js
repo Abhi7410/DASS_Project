@@ -2,10 +2,10 @@ import pkg from "mongoose";
 import { uuid } from "uuidv4";
 const { Schema, model } = pkg;
 // Create Schema
-const FileSchema = new Schema({
+const ResultSchema = new Schema({
   id: {
     type: String,
-    required: true,
+    default: uuid(),
   },
   name: {
     type: String,
@@ -16,7 +16,7 @@ const FileSchema = new Schema({
     required: true,
     unique: true,
   },
-  purpose: {
+  user: {
     type: String,
     required: true,
   },
@@ -24,16 +24,8 @@ const FileSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  type: {
-    type: String,
-    required: true,
-  },
-  user: {
-    type: String,
-    required: true,
-  },
 });
 
-const File = model("File", FileSchema);
+const Result = model("Result", ResultSchema);
 
-export default File;
+export default Result;

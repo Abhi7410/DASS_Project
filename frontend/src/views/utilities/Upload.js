@@ -14,6 +14,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from 'store/constant';
 import axios from 'axios';
+import Header from 'layout/MainLayout/Header';
 // ===============================|| COLOR BOX ||=============================== //
 
 const ColorBox = ({ bgcolor, title, data, dark }) => (
@@ -84,12 +85,9 @@ const UIColor = () => {
             image_path: selectedImage.path
         };
         axios
-            .post('http://localhost:4000/upload/modelize', data)
+            .post('http://localhost:4000/upload/modelize', data, { headers: { 'x-access-token': localStorage.getItem('user') } })
             .then((res) => {
                 console.log(res.data);
-                // openInNewTab(res.data.url);
-                // window.focus();
-                // window.open(res.data.url, '_blank');
                 setDownloadURL(res.data.url);
                 setLoading(false);
             })
@@ -101,7 +99,7 @@ const UIColor = () => {
 
     useEffect(() => {
         axios
-            .get('http://localhost:4000/upload/get_files')
+            .get('http://localhost:4000/upload/get_files', { headers: { 'x-access-token': localStorage.getItem('user') } })
             .then((res) => {
                 setFiles(res.data);
                 console.log(res.data);
@@ -118,7 +116,7 @@ const UIColor = () => {
                         <Grid container spacing={gridSpacing}>
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2 }}>
-                                    <Button component={Link} to="/utils/upload-image" sx={{ color: 'black' }}>
+                                    <Button component={Link} to="/utils/upload-file" sx={{ color: 'black' }}>
                                         +
                                     </Button>
                                 </Box>
@@ -206,7 +204,7 @@ const UIColor = () => {
                         <Grid container spacing={gridSpacing}>
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2 }}>
-                                    <Button component={Link} to="/utils/upload-image" sx={{ color: 'black' }}>
+                                    <Button component={Link} to="/utils/upload-file" sx={{ color: 'black' }}>
                                         +
                                     </Button>
                                 </Box>

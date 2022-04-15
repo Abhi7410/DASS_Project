@@ -1,7 +1,12 @@
 import pkg from "mongoose";
+import { uuid } from "uuidv4";
 const { Schema, model } = pkg;
 // Create Schema
 const UserSchema = new Schema({
+  id: {
+    type: String,
+    required: true,
+  },
   fname: {
     type: String,
     required: true,

@@ -26,6 +26,7 @@ const Demonstrate = Loadable(lazy(() => import('views/how_to')));
 const Plans = Loadable(lazy(() => import('views/plans')));
 const Profile = Loadable(lazy(() => import('views/profile')));
 const UploadImage = Loadable(lazy(() => import('views/upload/imageupload')));
+// import Startpage from 'views/pages/authentication/authentication3/Startpage';
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -34,7 +35,7 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <DashboardDefault />
+            element: <Startpage />
         },
         {
             path: '/dashboard/default',
@@ -45,7 +46,7 @@ const MainRoutes = {
             element: <UtilsTypography />
         },
         {
-            path: '/utils/upload-image',
+            path: '/utils/upload-file',
             element: <UploadImage />
         },
         {

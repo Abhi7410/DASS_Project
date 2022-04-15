@@ -45,22 +45,26 @@ const Image = () => {
         const formData = new FormData(form);
         console.log(form);
 
-        axios.post('http://localhost:4000/upload/upload', formData).then((res) => {
-            console.log(res);
-            // setFilePath(res.data);
-            console.log('Form submitted');
+        axios
+            .post('http://localhost:4000/upload/upload', formData, { headers: { 'x-access-token': localStorage.getItem('user') } })
+            .then((res) => {
+                console.log(res);
+                // setFilePath(res.data);
+                console.log('Form submitted');
 
-            const newFile = {
-                name: Name,
-                path: res.data,
-                purpose: Purpose,
-                created_at: curDate
-            };
+                const newFile = {
+                    name: Name,
+                    path: res.data,
+                    purpose: Purpose,
+                    created_at: curDate
+                };
 
-            axios.post('http://localhost:4000/upload/add', newFile).then((res2) => {
-                console.log(res2);
+                axios
+                    .post('http://localhost:4000/upload/add', newFile, { headers: { 'x-access-token': localStorage.getItem('user') } })
+                    .then((res2) => {
+                        console.log(res2);
+                    });
             });
-        });
     }
     return (
         <>
@@ -76,7 +80,7 @@ const Image = () => {
                 </Grid> */}
 
                 <Grid item xs={4}>
-                    <MainCard title="Choose Image">
+                    <MainCard title="Choose File">
                         <form encType="multipart/form-data" onSubmit={handleFormSubmission} id="form">
                             <input type="file" name="uploadedFile" value={uploadedFile} onChange={handleUploadedFile} required />
                             <button type="submit">
@@ -105,7 +109,7 @@ const Image = () => {
                     </MainCard>
                 </Grid>
                 <Grid item xs={8}>
-                    <MainCard title="Image Details">
+                    <MainCard title="File Details">
                         <Typography variant="body2" container spacing={2}>
                             <Grid item xs={12} style={{ margin: 15 }}>
                                 <TextField
@@ -125,7 +129,7 @@ const Image = () => {
                                     onChange={(e) => setPurpose(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12} style={{ margin: 15 }}>
+                            {/* <Grid item xs={12} style={{ margin: 15 }}>
                                 <TextField
                                     fullWidth
                                     id="outlined-error"
@@ -135,7 +139,7 @@ const Image = () => {
                                     value={curDate}
                                     onChange={(e) => setDate(e.target.value)}
                                 />
-                            </Grid>
+                            </Grid> */}
                             {/* 
                             <Grid item xs={12} style={{ margin: 15 }}>
                                     <TextField fullWidth id="outlined-error" label="Extra Field" value={} />

@@ -11,13 +11,15 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import sleep from "sleep-promise";
 import auth from "../middleware/auth.js";
+import ObjectId from "mongoose";
+import { uuid } from "uuidv4";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 import { Curl } from "node-libcurl";
 let cur_token =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNmNjZWJiMGYtMWNmNy00NWVkLTk3MDItOWM2NDQ3MDdlOGVmIiwiYXVkIjoiZmFzdGFwaS11c2VyczphdXRoIiwiZXhwIjoxNjQ5MTQ5NTkyfQ.i7PAr4jyNOxfXmdXtUyJXgv6ZdC2sxAmQ-uWXZZAHpg";
-const ngrok_URL = "http://2175-35-185-39-90.ngrok.io/";
+const ngrok_URL = "http://b554-35-201-205-17.ngrok.io/";
 const storageEngine = multer.diskStorage({
   destination: "./uploads/",
   filename: function (req, file, callback) {
@@ -62,14 +64,14 @@ const upload = multer({
   storage: storageEngine,
   fileFilter,
 });
-router.post("/upload", upload.single("uploadedFile"), (req, res) => {
+router.post("/upload", auth, upload.single("uploadedFile"), (req, res) => {
   console.log("Upload complete");
   // console.log(req);
   //   console.log(req.file);
   res.status(200).json(req.file.path);
 });
 
-router.post("/add", (req, res) => {
+router.post("/add", auth, (req, res) => {
   //   console.log("hi");
   //   console.log(req);
 
@@ -93,7 +95,11 @@ router.post("/add", (req, res) => {
     path: req.body.path,
     purpose: req.body.purpose,
     type: type,
+    user: req.user.id,
+    id: uuid(),
   });
+
+  console.log(newFile);
   newFile
     .save()
     .then((file) => {
@@ -105,8 +111,8 @@ router.post("/add", (req, res) => {
     });
 });
 
-router.get("/get_files", (req, res) => {
-  File.find({})
+router.get("/get_files", auth, (req, res) => {
+  File.find({ user: req.user.id })
     .then((files) => {
       res.status(200).json(files);
     })
@@ -168,14 +174,17 @@ router.get("/get_user", (req, res) => {
 //   });
 // }
 
-router.post("/test", async (req, res) => {
-  var obj2 = { url: "http://localhost:4000/uploads/result.mp4" };
+router.post("/test", auth, async (req, res) => {
+  var obj2 = {
+    url: "http://localhost:4000/uploads/result.mp4",
+    user: req.user,
+  };
   // Sleep for 5 seconds
   await sleep(2000);
   res.status(200).json(obj2);
 });
 
-router.post("/modelize", async (req, res) => {
+router.post("/modelize", auth, async (req, res) => {
   ensure_login();
   // Check if eq has audio_path
   if (req.body.audio_path == null || req.body.image_path == null) {
