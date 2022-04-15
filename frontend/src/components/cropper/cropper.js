@@ -57,7 +57,21 @@ export default function RenderCropper({ handleCropper }) {
         const convertedUrlToFile = dataURLtoFile(canvasDataUrl, 'cropped-image.jpeg');
         // console.log(canvasDataUrl);
         console.log(convertedUrlToFile);
-        return null;
+        // return null;
+        try {
+            const formdata = new FormData();
+            formdata.append('croppedImage', convertedUrlToFile);
+
+            const res = await fetch('http://localhost:4000/users/setProfilePic', {
+                method: 'POST',
+                body: formdata
+            });
+
+            const res2 = await res.json();
+            console.log(res2);
+        } catch (err) {
+            console.warn(err);
+        }
     };
 
     const onClear = () => {

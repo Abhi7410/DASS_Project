@@ -50,9 +50,9 @@ const Profile = () => {
                         </Grid>
                     </Grid>
                     <Grid justifyContent="center" marginTop="2rem" container spacing={2}>
-                        {/* <Grid item>
+                        <Grid item>
                             <App />
-                        </Grid> */}
+                        </Grid>
                     </Grid>
                     <Grid container justifyContent="center" direction="row" spacing={2}>
                         {/* Left Column */}

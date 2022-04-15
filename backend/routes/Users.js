@@ -7,12 +7,18 @@ import User from "../models/User.js";
 import { uuid } from "uuidv4";
 const JWT_SECRET = "sl_myJwtSecret";
 const router = Router();
+import userController from "../controllers/userController.js";
+// const userController = require("../controllers/userController");
 
 /**
  * @route   POST api/auth/login
  * @desc    Login user
  * @access  Public
  */
+
+router.post("/setProfilePic", userController.setProfilePic);
+
+module.exports = router;
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -85,7 +91,7 @@ router.post("/register", async (req, res) => {
     if (!savedUser) throw Error("Something went wrong saving the user");
 
     const token = jwt.sign({ id: savedUser.id }, JWT_SECRET, {
-      expiresIn: 3600,
+      expiresIn: "24h",
     });
     // savedUser.endsWith("@iiit.ac.in") ? (user_type = "admin") : (user_type = "user");
     console.log(token);
