@@ -22,6 +22,7 @@ import FileUpload from 'react-mui-fileuploader';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -90,7 +91,7 @@ const Image = () => {
                     <MainCard title="Choose File">
                         <form encType="multipart/form-data" onSubmit={handleFormSubmission} id="form">
                             <input type="file" name="uploadedFile" value={uploadedFile} onChange={handleUploadedFile} required />
-                            <button type="submit">
+                            <button type="submit" style={{ padding: '5px' }}>
                                 <Typography
                                     variant="body2"
                                     style={{
@@ -108,7 +109,7 @@ const Image = () => {
                                         // vertically center text
                                     }}
                                 >
-                                    Add
+                                    <AttachFileIcon />
                                 </Typography>
                             </button>{' '}
                         </form>

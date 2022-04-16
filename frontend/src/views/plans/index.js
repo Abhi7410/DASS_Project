@@ -15,84 +15,28 @@ import {
 } from '@mui/material';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
+import ReactDOM from 'react-dom';
+import { PricingTable, PricingSlot, PricingDetail } from 'react-pricing-table';
+import './styles.css';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const Plans = () => (
-    <Grid container spacing={2}>
-        <Grid item xs={4}>
-            <MainCard title="Free">
-                <Typography
-                    variant="body2"
-                    style={{
-                        height: '30rem',
-
-                        // change background to light purple
-                        backgroundColor: '#8245f5',
-                        // increase border radius
-                        borderRadius: '10px',
-                        // increase font size
-                        fontSize: '16.5rem',
-                        // change font color to white
-                        color: 'white',
-                        // center text
-                        textAlign: 'center'
-                        // vertically center text
-                    }}
-                >
-                    $
-                </Typography>
-            </MainCard>
-        </Grid>
-        <Grid item xs={4}>
-            <MainCard title="Semi-Pro">
-                <Typography
-                    variant="body2"
-                    style={{
-                        height: '30rem',
-
-                        // change background to purple
-                        backgroundColor: '#532b9e',
-                        // increase border radius
-                        borderRadius: '10px',
-                        // increase font size
-                        fontSize: '16.5rem',
-                        // change font color to white
-                        color: 'white',
-                        // center text
-                        textAlign: 'center'
-                        // vertically center text
-                    }}
-                >
-                    $
-                </Typography>
-            </MainCard>
-        </Grid>
-        <Grid item xs={4}>
-            <MainCard title="Pro">
-                <Typography
-                    variant="body2"
-                    style={{
-                        height: '30rem',
-
-                        // change background to purple
-                        backgroundColor: '#3a1c73',
-                        // increase border radius
-                        borderRadius: '10px',
-                        // increase font size
-                        fontSize: '16.5rem',
-                        // change font color to white
-                        color: 'white',
-                        // center text
-                        textAlign: 'center'
-                        // vertically center text
-                    }}
-                >
-                    $
-                </Typography>
-            </MainCard>
-        </Grid>
-    </Grid>
+    <PricingTable highlightColor="#1976D2" className="pricingTable">
+        <PricingSlot buttonText="TRY IT FREE" title="FREE" priceText="$x/month" styles={{ backgroundColor: 'yellow', fontSize: '20px' }}>
+            <PricingDetail> Create Free Avatars</PricingDetail>
+        </PricingSlot>
+        <PricingSlot buttonText="TRY IT FREE" title="Prime" priceText="$y/month">
+            <PricingDetail> Everything in FREE + </PricingDetail>
+            <PricingDetail> Ad Free Viewing Experience </PricingDetail>
+            <PricingDetail> Extra Features like Background etc.</PricingDetail>
+            <PricingDetail> </PricingDetail>
+        </PricingSlot>
+        <PricingSlot buttonText="TRY IT FREE" title="VIP" priceText="$z/month">
+            <PricingDetail> Everything in Prime + </PricingDetail>
+            <PricingDetail> All Premimum Experience</PricingDetail>
+        </PricingSlot>
+    </PricingTable>
 );
 
 export default Plans;

@@ -9,8 +9,8 @@ import { Card, Grid, Typography } from '@mui/material';
 import ApexCharts from 'apexcharts';
 import Chart from 'react-apexcharts';
 
-// project imports
-import chartData from './chart-data/bajaj-area-chart';
+// // project imports
+// import chartData from './chart-data/bajaj-area-chart';
 
 // ===========================|| DASHBOARD DEFAULT - BAJAJ AREA CHART CARD ||=========================== //
 

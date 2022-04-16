@@ -16,6 +16,8 @@ import { gridSpacing } from 'store/constant';
 import axios from 'axios';
 import Header from 'layout/MainLayout/Header';
 import TextField from '@mui/material/TextField';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import AudioFileIcon from '@mui/icons-material/AudioFile';
 // ===============================|| COLOR BOX ||=============================== //
 
 const ColorBox = ({ bgcolor, title, data, dark }) => (
@@ -130,7 +132,7 @@ const UIColor = () => {
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2 }}>
                                     <Button component={Link} to="/utils/upload-file" sx={{ color: 'black' }}>
-                                        +
+                                        <AddAPhotoIcon />
                                     </Button>
                                 </Box>
                             </Grid>
@@ -218,7 +220,7 @@ const UIColor = () => {
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2 }}>
                                     <Button component={Link} to="/utils/upload-file" sx={{ color: 'black' }}>
-                                        +
+                                        <AudioFileIcon />
                                     </Button>
                                 </Box>
                             </Grid>
