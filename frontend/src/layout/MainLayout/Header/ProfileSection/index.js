@@ -35,7 +35,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 import UpgradePlanCard from './UpgradePlanCard';
 import User1 from 'assets/images/users/user-round.svg';
-
+import axios from 'axios';
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
 
@@ -51,6 +51,7 @@ const ProfileSection = () => {
     const [notification, setNotification] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
+    const [name, setName] = useState('');
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
@@ -59,6 +60,9 @@ const ProfileSection = () => {
         localStorage.removeItem('user');
         setOpen(false);
         console.log('Logout');
+    };
+    const onChangeFName = (event) => {
+        setName(event.target.value);
     };
 
     const handleClose = (event) => {
@@ -89,6 +93,15 @@ const ProfileSection = () => {
         prevOpen.current = open;
     }, [open]);
 
+    useEffect(() => {
+        axios
+            .get('http://localhost:4000/user/get_details', { headers: { 'x-access-token': localStorage.getItem('user') } })
+            .then((response) => {
+                console.log(response.data);
+                setName(response.data.fname);
+            })
+            .catch((err) => console.log(err));
+    }, []);
     return (
         <>
             <Chip
@@ -159,9 +172,9 @@ const ProfileSection = () => {
                                     <Box sx={{ p: 2, marginBottom: '-10%' }}>
                                         <Stack>
                                             <Stack direction="row" spacing={0.5} alignItems="center">
-                                                <Typography variant="h4">Good Morning,</Typography>
+                                                <Typography variant="h4">Hey,</Typography>
                                                 <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                    Johne Doe
+                                                    {name}
                                                 </Typography>
                                             </Stack>
                                             <Typography variant="subtitle2">Project Admin</Typography>
@@ -185,7 +198,7 @@ const ProfileSection = () => {
                                                     }
                                                 }}
                                             >
-                                                <ListItemButton
+                                                {/* <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 0}
                                                     onClick={(event) => handleListItemClick(event, 0, '/user/account-profile/profile1')}
@@ -194,7 +207,7 @@ const ProfileSection = () => {
                                                         <IconSettings stroke={1.5} size="1.3rem" />
                                                     </ListItemIcon>
                                                     <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
-                                                </ListItemButton>
+                                                </ListItemButton> */}
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 1}

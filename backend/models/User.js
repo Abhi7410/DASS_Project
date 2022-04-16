@@ -29,6 +29,7 @@ const UserSchema = new Schema({
   },
   user_type: {
     type: String,
+    default: "user",
   },
 });
 

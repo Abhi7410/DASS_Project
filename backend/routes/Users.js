@@ -84,7 +84,7 @@ router.post("/register", async (req, res) => {
       lname,
       email,
       password: hash,
-      user_type: "admin",
+      user_type: "user",
     });
 
     const savedUser = await newUser.save();
@@ -93,7 +93,7 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign({ id: savedUser.id }, JWT_SECRET, {
       expiresIn: "24h",
     });
-    // savedUser.endsWith("@iiit.ac.in") ? (user_type = "admin") : (user_type = "user");
+
     console.log(token);
     res.status(200).json({
       token,
@@ -126,4 +126,37 @@ router.get("/user", auth, async (req, res) => {
   }
 });
 
+router.post("/update", auth, async (req, res) => {
+  User.findOne({ id: req.user.id })
+    .then((user) => {
+      if (req.body.fname) user.fname = req.body.fname;
+      if (req.body.lname) user.lname = req.body.lname;
+      if (req.body.email) user.email = req.body.email;
+      if (req.body.password) user.password = req.body.password;
+
+      user.save();
+      res.status(200).send("User updated");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ msg: err.message });
+    });
+});
+
+router.get("/get_details", auth, async (req, res) => {
+  User.findOne({ id: req.user.id })
+
+    .then((user) => {
+      res.status(200).send({
+        fname: user.fname,
+        lname: user.lname,
+        email: user.email,
+        reg_date: user.register_date.toDateString(),
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ msg: err.message });
+    });
+});
 export default router;
