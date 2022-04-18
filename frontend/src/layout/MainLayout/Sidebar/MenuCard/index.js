@@ -88,7 +88,7 @@ const MenuCard = () => {
         <CardStyle>
             <CardContent sx={{ p: 2 }}>
                 <List sx={{ p: 0, m: 0 }}>
-                    <ListItem alignItems="flex-start" disableGutters sx={{ p: 0 }}>
+                    {/* <ListItem alignItems="flex-start" disableGutters sx={{ p: 0 }}>
                         <ListItemAvatar sx={{ mt: 0 }}>
                             <Avatar
                                 variant="rounded"
@@ -98,7 +98,7 @@ const MenuCard = () => {
                                     color: theme.palette.primary.main,
                                     border: 'none',
                                     borderColor: theme.palette.primary.main,
-                                    background: '#fff',
+                                    background: 'black',
                                     marginRight: '12px'
                                 }}
                             >
@@ -114,9 +114,9 @@ const MenuCard = () => {
                             }
                             secondary={<Typography variant="caption"> 28/23 GB</Typography>}
                         />
-                    </ListItem>
+                    </ListItem> */}
                 </List>
-                <LinearProgressWithLabel value={80} />
+                {/* <LinearProgressWithLabel value={80} /> */}
             </CardContent>
         </CardStyle>
     );

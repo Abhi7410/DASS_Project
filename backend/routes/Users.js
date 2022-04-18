@@ -7,7 +7,7 @@ import User from "../models/User.js";
 import { uuid } from "uuidv4";
 const JWT_SECRET = "sl_myJwtSecret";
 const router = Router();
-// import userController from "../controllers/userController.js";
+import setProfilePic from "../controllers/userController.js";
 // const userController = require("../controllers/userController");
 
 /**
@@ -16,7 +16,7 @@ const router = Router();
  * @access  Public
  */
 
-// router.post("/setProfilePic", userController.setProfilePic);
+router.post("/setProfilePic", setProfilePic);
 
 // module.exports = router;/
 
@@ -47,6 +47,7 @@ router.post("/login", async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
+        
       },
     });
   } catch (e) {
@@ -85,6 +86,8 @@ router.post("/register", async (req, res) => {
       email,
       password: hash,
       user_type: "user",
+      photoURL,
+
     });
 
     const savedUser = await newUser.save();
@@ -102,6 +105,7 @@ router.post("/register", async (req, res) => {
         name: savedUser.name,
         email: savedUser.email,
         user_type: savedUser.user_type,
+        photoURL: savedUser.photoURL,
       },
     });
   } catch (e) {
@@ -124,6 +128,20 @@ router.get("/user", auth, async (req, res) => {
   } catch (e) {
     res.status(400).json({ msg: e.message });
   }
+});
+
+router.post("/setProfilePic", auth, async (req, res) => {
+
+  User.findOne({ id: req.user.id })
+    .then((user) => {
+      user.photoURL = req.body.photoURL;
+      user.save();
+      res.status(200).send("Profile pic updated");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send("Profile pic not updated");
+    });
 });
 
 router.post("/update", auth, async (req, res) => {

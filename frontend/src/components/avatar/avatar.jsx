@@ -12,6 +12,7 @@ import { IconButton } from '@mui/material';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import RenderCropper from 'components/cropper/cropper';
 import { TextField } from '@material-ui/core';
+import axios from 'axios';
 // import { useState, useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,10 +37,20 @@ export default function RenderAvatar() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
-
+    const [avatar, setAvatar] = React.useState('');
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
+
+    React.useEffect(() => {
+        axios
+            .get('http://localhost:4000/user/setProfilePic', { headers: { 'x-access-token': localStorage.getItem('user') } })
+            .then((response) => {
+                console.log(response.data);
+                setAvatar(response.data.photoURL);
+            })
+            .catch((err) => console.log(err));
+    }, []);
     const renderInputComponent = (inputProps) => {
         const { error, label, ref, ...rest } = inputProps;
         return <TextField error={!!error} label={label} fullWidth inputRef={inputProps.inputRef} {...rest} />;
@@ -74,7 +85,7 @@ export default function RenderAvatar() {
         <>
             <div className="avatar-container">
                 <div className="avatar">
-                    <img src="" alt="avatar" className="avatar-img" />
+                    <img src={avatar} alt="avatar" className="avatar-img" />
                 </div>
 
                 <IconButton
@@ -118,7 +129,7 @@ export default function RenderAvatar() {
                     )}
                 </Popper>
             </div>
-            {showCropper && <RenderCropper handleCropper={handleCropper} />}
+            {showCropper && <RenderCropper handleCropper={handleCropper} setAvatar={setAvatar} />}
         </>
     );
 }

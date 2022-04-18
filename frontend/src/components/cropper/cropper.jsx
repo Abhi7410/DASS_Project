@@ -10,6 +10,7 @@ import getCroppedImg, { generateDownload } from '../../utils/cropImage';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { makeStyles } from '@mui/styles';
 import { IconButton } from '@mui/material';
+import { BackdropContext } from '../backdrop/backdrop';
 
 const useStyles = makeStyles({
     iconButton: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles({
         }
     }
 });
-export default function RenderCropper({ handleCropper }) {
+export default function RenderCropper({ handleCropper, setAvatar }) {
     const inputRef = React.useRef();
     const triggerFileSelectPopup = () => inputRef.current.click();
     const [image, setImage] = React.useState(null);
@@ -34,6 +35,7 @@ export default function RenderCropper({ handleCropper }) {
     const [zoom, setZoom] = React.useState(1);
     const classes = useStyles();
     const setStateSnackbarContext = React.useContext(SnackbarContext);
+    const { closeBackdrop, showBackdrop } = React.useContext(BackdropContext);
 
     const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
         setCroppedArea(croppedAreaPixels);
@@ -61,15 +63,18 @@ export default function RenderCropper({ handleCropper }) {
         try {
             const formdata = new FormData();
             formdata.append('croppedImage', convertedUrlToFile);
-
-            const res = await fetch('http://localhost:4000/users/setProfilePic', {
+            // showBackdrop();
+            const res = await fetch('http://localhost:4000/user/setProfilePic', {
                 method: 'POST',
                 body: formdata
             });
 
             const res2 = await res.json();
+            // closeBackdrop();
             console.log(res2);
+            setAvatar(res2.data);
         } catch (err) {
+            // closeBackdrop();
             console.warn(err);
         }
     };

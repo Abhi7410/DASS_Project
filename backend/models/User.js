@@ -31,6 +31,10 @@ const UserSchema = new Schema({
     type: String,
     default: "user",
   },
+  photoURL: {
+    type: String,
+    required: true,
+  },
 });
 
 const User = model("user", UserSchema);
