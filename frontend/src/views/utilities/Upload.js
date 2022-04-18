@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 // material-ui
@@ -18,6 +19,13 @@ import Header from 'layout/MainLayout/Header';
 import TextField from '@mui/material/TextField';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import AudioFileIcon from '@mui/icons-material/AudioFile';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+
 // ===============================|| COLOR BOX ||=============================== //
 
 const ColorBox = ({ bgcolor, title, data, dark }) => (
@@ -76,6 +84,13 @@ const UIColor = () => {
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
         if (newWindow) newWindow.opener = null;
+    };
+    const [open, setOpen] = React.useState(false);
+    const handleClickToOpen = () => {
+        setOpen(true);
+    };
+    const handleToClose = () => {
+        setOpen(false);
     };
     function onChangeName(e) {
         console.log(e.target.value);
@@ -257,15 +272,41 @@ const UIColor = () => {
                 </Grid>
                 <Grid item xs={1} alignContent="center" justifyContent="center">
                     {/* <Box component="span" sx={{ p: 2, border: '1px dashed grey', borderRadius: 2, marginLeft: 85 }}> */}
-                    <LoadingButton
-                        onClick={() => send4lipsync()}
-                        endIcon={<SendIcon />}
-                        loading={loading}
-                        loadingPosition="end"
+                    <Button
+                        onClick={() => handleClickToOpen()}
                         variant="contained"
+                        color="primary"
+                        // endIcon={<SendIcon />}
+                        // loading={loading}
+                        // loadingPosition="end"
+                        // variant="contained"
                     >
-                        Send
-                    </LoadingButton>
+                        Continue
+                    </Button>
+                    <Dialog open={open} onClose={handleToClose}>
+                        <DialogTitle>{'Preview'}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>Title: {name}</DialogContentText>
+                            <DialogContentText>Image Selected</DialogContentText>
+                            <img src={'http://localhost:4000/' + selectedImage.path} alt="Custom" height="250px" />
+                            <DialogContentText>Audio Selected</DialogContentText>
+                            <audio controls>
+                                <source src={'http://localhost:4000/' + selectedAudio.path} type="audio/mpeg" />
+                                <track kind="captions" />
+                            </audio>
+                        </DialogContent>
+                        <DialogActions>
+                            <LoadingButton
+                                onClick={() => send4lipsync()}
+                                endIcon={<SendIcon />}
+                                loading={loading}
+                                loadingPosition="end"
+                                variant="contained"
+                            >
+                                Send
+                            </LoadingButton>
+                        </DialogActions>
+                    </Dialog>
 
                     {/* </Box> */}
                 </Grid>
@@ -286,7 +327,6 @@ const UIColor = () => {
                             loading={loading}
                             loadingPosition="end"
                             variant="contained"
-                            // margin-left="2rem"
                         >
                             Open
                         </LoadingButton>
