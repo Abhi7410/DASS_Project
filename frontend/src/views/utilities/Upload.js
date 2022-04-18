@@ -20,6 +20,7 @@ import TextField from '@mui/material/TextField';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import AudioFileIcon from '@mui/icons-material/AudioFile';
 
+import { useNavigate } from 'react-router';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -85,6 +86,7 @@ const UIColor = () => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
         if (newWindow) newWindow.opener = null;
     };
+    const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const handleClickToOpen = () => {
         setOpen(true);
@@ -115,6 +117,8 @@ const UIColor = () => {
                 // setDownloadURL(res.data.url);
                 setDownloadINFO([res.data.url, res.data.id]);
                 setLoading(false);
+                handleToClose();
+                navigate('/user/results-page');
             })
             .catch((err) => {
                 console.log(err);
@@ -297,7 +301,11 @@ const UIColor = () => {
                         </DialogContent>
                         <DialogActions>
                             <LoadingButton
-                                onClick={() => send4lipsync()}
+                                onClick={() => {
+                                    send4lipsync();
+                                    // Close after send4lipsync is done
+                                    // handleToClose();
+                                }}
                                 endIcon={<SendIcon />}
                                 loading={loading}
                                 loadingPosition="end"

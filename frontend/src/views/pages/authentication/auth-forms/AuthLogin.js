@@ -20,7 +20,7 @@ import {
     Typography,
     useMediaQuery
 } from '@mui/material';
-
+import { useNavigate } from 'react-router-dom';
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -35,6 +35,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
 import axios from 'axios';
+import { Navigate } from 'react-router';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -47,7 +48,7 @@ const FirebaseLogin = ({ ...others }) => {
     const googleHandler = async () => {
         console.error('Login');
     };
-
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -69,7 +70,8 @@ const FirebaseLogin = ({ ...others }) => {
                 console.log(response);
                 if (response.data.token) {
                     localStorage.setItem('user', response.data.token);
-                    alert(response.data.token);
+                    // alert(response.data.token);
+                    navigate('/dashboard/default');
                 }
                 return response.data;
             });

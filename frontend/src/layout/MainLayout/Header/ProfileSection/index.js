@@ -60,6 +60,7 @@ const ProfileSection = () => {
         localStorage.removeItem('user');
         setOpen(false);
         console.log('Logout');
+        navigate('/pages/startpage');
     };
     const onChangeFName = (event) => {
         setName(event.target.value);
