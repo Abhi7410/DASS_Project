@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import './avatar.css';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
@@ -42,9 +43,9 @@ export default function RenderAvatar() {
         setOpen((prevOpen) => !prevOpen);
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         axios
-            .get('http://localhost:4000/user/setProfilePic', { headers: { 'x-access-token': localStorage.getItem('user') } })
+            .get('http://localhost:4000/user/get_details', { headers: { 'x-access-token': localStorage.getItem('user') } })
             .then((response) => {
                 console.log(response.data);
                 setAvatar(response.data.photoURL);

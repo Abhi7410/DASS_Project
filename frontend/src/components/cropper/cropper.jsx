@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Cropper from 'react-easy-crop';
 import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
@@ -11,7 +11,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { makeStyles } from '@mui/styles';
 import { IconButton } from '@mui/material';
 import { BackdropContext } from '../backdrop/backdrop';
-
+import axios from 'axios';
 const useStyles = makeStyles({
     iconButton: {
         position: 'relative',
@@ -66,7 +66,8 @@ export default function RenderCropper({ handleCropper, setAvatar }) {
             // showBackdrop();
             const res = await fetch('http://localhost:4000/user/setProfilePic', {
                 method: 'POST',
-                body: formdata
+                body: formdata,
+                headers: { 'x-access-token': localStorage.getItem('user') }
             });
 
             const res2 = await res.json();

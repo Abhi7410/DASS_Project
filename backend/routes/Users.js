@@ -7,16 +7,58 @@ import User from "../models/User.js";
 import { uuid } from "uuidv4";
 const JWT_SECRET = "sl_myJwtSecret";
 const router = Router();
-import setProfilePic from "../controllers/userController.js";
+// import setProfilePic from "../controllers/userController.js";
 // const userController = require("../controllers/userController");
+import aws from "aws-sdk";
+import multer from "multer";
+import multerS3 from "multer-s3";
+// import multer from
+
+const s3 = new aws.S3({
+  accessKeyId: "AKIAYHPA6LXECM6G72LJ",
+  secretAccessKey: "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",
+  region: "ap-south-1",
+});
+
+const upload = (bucketName) =>
+  multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: bucketName,
+      metadata: function (req, file, cb) {
+        cb(null, { fieldName: file.fieldname });
+      },
+      key: function (req, file, cb) {
+        cb(null, `image-${Date.now()}.jpeg`);
+      },
+    }),
+  });
+
+router.post("/setProfilePic", auth, async (req, res) => {
+  console.log(req.files);
+  const uploadSingle = upload("profile-picture-upload-site").single(
+    "croppedImage"
+  );
+  User.findOne({ id: req.user.id }).then((user) => {
+    uploadSingle(req, res, async (err) => {
+      if (err)
+        return res.status(400).json({ success: false, message: err.message });
+
+      // await User.create({ photoURL: req.file.location });
+      console.log("Success?");
+      console.log(req.file.location);
+      user.photoURL = req.file.location;
+      user.save();
+      res.status(200).json({ user: user.fname, data: req.file.location });
+    });
+  });
+});
 
 /**
  * @route   POST api/auth/login
  * @desc    Login user
  * @access  Public
  */
-
-router.post("/setProfilePic", setProfilePic);
 
 // module.exports = router;/
 
@@ -47,7 +89,6 @@ router.post("/login", async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
-        
       },
     });
   } catch (e) {
@@ -87,7 +128,6 @@ router.post("/register", async (req, res) => {
       password: hash,
       user_type: "user",
       photoURL,
-
     });
 
     const savedUser = await newUser.save();
@@ -131,7 +171,6 @@ router.get("/user", auth, async (req, res) => {
 });
 
 router.post("/setProfilePic", auth, async (req, res) => {
-
   User.findOne({ id: req.user.id })
     .then((user) => {
       user.photoURL = req.body.photoURL;
@@ -170,6 +209,7 @@ router.get("/get_details", auth, async (req, res) => {
         lname: user.lname,
         email: user.email,
         reg_date: user.register_date.toDateString(),
+        photoURL: user.photoURL,
       });
     })
     .catch((err) => {
