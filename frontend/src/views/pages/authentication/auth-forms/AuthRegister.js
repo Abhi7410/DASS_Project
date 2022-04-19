@@ -49,7 +49,7 @@ const FirebaseRegister = ({ ...others }) => {
 
     const [strength, setStrength] = useState(0);
     const [level, setLevel] = useState();
-    const API_URL = 'http://localhost:4000/user/';
+    const API_URL = 'http://localhost/api/user/';
     const register = (values) => {
         console.log(values);
         axios

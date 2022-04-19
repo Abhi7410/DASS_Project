@@ -51,7 +51,7 @@ const Image = () => {
         console.log(form);
 
         axios
-            .post('http://localhost:4000/upload/upload', formData, { headers: { 'x-access-token': localStorage.getItem('user') } })
+            .post('http://localhost/api/upload/upload', formData, { headers: { 'x-access-token': localStorage.getItem('user') } })
             .then((res) => {
                 console.log(res);
                 // setFilePath(res.data);
@@ -64,7 +64,7 @@ const Image = () => {
                 };
 
                 axios
-                    .post('http://localhost:4000/upload/add', newFile, { headers: { 'x-access-token': localStorage.getItem('user') } })
+                    .post('http://localhost/api/upload/add', newFile, { headers: { 'x-access-token': localStorage.getItem('user') } })
                     .then((res2) => {
                         // YAHAN
                         // <Alert severity="success">Image uploaded successfully!</Alert>;
@@ -76,7 +76,7 @@ const Image = () => {
             /* <Grid item xs={4}>
                     {item.img ? (
                         <Grid item xs={12}>
-                            <img src={'http://localhost:4000/' + item.img} width="100" />
+                            <img src={'http://localhost/api/' + item.img} width="100" />
                         </Grid>
                     ) : (
                         ''

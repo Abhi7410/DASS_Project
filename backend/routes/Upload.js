@@ -21,7 +21,7 @@ import { Curl } from "node-libcurl";
 import { exit } from "process";
 let cur_token =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNmNjZWJiMGYtMWNmNy00NWVkLTk3MDItOWM2NDQ3MDdlOGVmIiwiYXVkIjoiZmFzdGFwaS11c2VyczphdXRoIiwiZXhwIjoxNjQ5MTQ5NTkyfQ.i7PAr4jyNOxfXmdXtUyJXgv6ZdC2sxAmQ-uWXZZAHpg";
-const ngrok_URL = "http://4708-35-231-192-5.ngrok.io/";
+const ngrok_URL = "http://4e37-34-143-218-50.ngrok.io/";
 const storageEngine = multer.diskStorage({
   destination: "./uploads/",
   filename: function (req, file, callback) {
@@ -204,7 +204,7 @@ router.get("/get_user", (req, res) => {
 
 router.post("/test", auth, async (req, res) => {
   var obj2 = {
-    url: "http://localhost:4000/uploads/result.mp4",
+    url: "http://localhost/api/uploads/result.mp4",
     user: req.user,
   };
   // Sleep for 5 seconds
@@ -323,7 +323,7 @@ router.post("/modelize", auth, async (req, res) => {
                   .save()
                   .then((final_result) => {
                     var obj2 = {
-                      url: "http://localhost:4000/" + saved_url,
+                      url: "http://localhost/api/" + saved_url,
                       id: final_result.id,
                     };
                     res.status(200).json(obj2);

@@ -57,7 +57,7 @@ const FirebaseLogin = ({ ...others }) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    const API_URL = 'http://localhost:4000/user/';
+    const API_URL = 'http://localhost/api/user/';
 
     const attemptLogin = (values) => {
         console.log(values);

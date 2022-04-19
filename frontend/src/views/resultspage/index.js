@@ -73,7 +73,7 @@ const ResultPage = () => {
 
     useEffect(() => {
         axios
-            .get('http://localhost:4000/upload/get_result', { headers: { 'x-access-token': localStorage.getItem('user') } })
+            .get('http://localhost/api/upload/get_result', { headers: { 'x-access-token': localStorage.getItem('user') } })
             .then((res) => {
                 console.log(res.data);
                 setResults(res.data);
@@ -111,10 +111,10 @@ const ResultPage = () => {
                                             const item2send = {
                                                 id: item.id
                                             };
-                                            axios.post('http://localhost:4000/upload/mark_seen', item2send, {
+                                            axios.post('http://localhost/api/upload/mark_seen', item2send, {
                                                 headers: { 'x-access-token': localStorage.getItem('user') }
                                             });
-                                            window.open('http://localhost:4000/' + item.path);
+                                            window.open('http://localhost/api/' + item.path);
                                         }}
                                         endIcon={<SaveIcon />}
                                         loadingPosition="end"

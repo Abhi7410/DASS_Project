@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  back:
+    build: ./backend
+    restart: unless-stopped
+    env_file: ./backend/.env
+    ports:
+      - 4000:4000
+    networks:
+      - backend
+      - frontend
+  front:
+    depends_on:
+      - back
+    build:
+      context: ./frontend
+    ports:
+      - 3000:3000
+    networks:
+      - frontend  
+  nginx:
+    build:
+        context: ./nginx
+        dockerfile: Dockerfile.dev
+    ports: 
+        - 80:80
+    networks:
+      - backend
+      - frontend
+    restart: always
+volumes: 
+  db:
+networks:
+  backend:
+  frontend:

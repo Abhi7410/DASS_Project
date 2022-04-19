@@ -65,7 +65,7 @@ const NotificationList = () => {
 
     useEffect(() => {
         axios
-            .get('http://localhost:4000/upload/get_result', { headers: { 'x-access-token': localStorage.getItem('user') } })
+            .get('http://localhost/api/upload/get_result', { headers: { 'x-access-token': localStorage.getItem('user') } })
             .then((res) => {
                 console.log(res.data);
                 // setResults([2]);
@@ -209,10 +209,10 @@ const NotificationList = () => {
                                                 const item2send = {
                                                     id: result.id
                                                 };
-                                                axios.post('http://localhost:4000/upload/mark_seen', item2send, {
+                                                axios.post('http://localhost/api/upload/mark_seen', item2send, {
                                                     headers: { 'x-access-token': localStorage.getItem('user') }
                                                 });
-                                                window.open('http://localhost:4000/' + result.path);
+                                                window.open('http://localhost/api/' + result.path);
                                             }}
                                             endIcon={<IconBrandTelegram stroke={1.5} size="1.3rem" />}
                                         >

@@ -27,3 +27,4 @@ backend/yarn.lock
 backend/yarn.lock
 backend/uploads/interm.mp4
 frontend/yarn.lock
+frontend/build
