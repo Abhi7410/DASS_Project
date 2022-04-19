@@ -52,6 +52,8 @@ const ProfileSection = () => {
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
     const [name, setName] = useState('');
+    const [photourl, setPhotourl] = useState('');
+    const [userType, setUserType] = useState('');
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
@@ -100,6 +102,8 @@ const ProfileSection = () => {
             .then((response) => {
                 console.log(response.data);
                 setName(response.data.fname);
+                setPhotourl(response.data.photoURL);
+                setUserType(response.data.user_type);
             })
             .catch((err) => console.log(err));
     }, []);
@@ -127,7 +131,7 @@ const ProfileSection = () => {
                 }}
                 icon={
                     <Avatar
-                        src={User1}
+                        src={photourl}
                         sx={{
                             ...theme.typography.mediumAvatar,
                             margin: '8px 0 8px 8px !important',
@@ -178,7 +182,7 @@ const ProfileSection = () => {
                                                     {name}
                                                 </Typography>
                                             </Stack>
-                                            <Typography variant="subtitle2">Project Admin</Typography>
+                                            <Typography variant="subtitle2">{userType}</Typography>
                                         </Stack>
                                     </Box>
                                     <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>

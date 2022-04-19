@@ -39,6 +39,7 @@ export default function RenderAvatar() {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const [avatar, setAvatar] = React.useState('');
+    const [rempic, setRemPic] = React.useState('');
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
@@ -113,7 +114,7 @@ export default function RenderAvatar() {
                                             handleListKeyDown(event);
                                         }}
                                     >
-                                        <MenuItem onClick={handleClose}>View</MenuItem>
+                                        {/* <MenuItem onClick={handleClose}>View</MenuItem> */}
                                         <MenuItem
                                             onClick={(event) => {
                                                 handleCropper();
@@ -122,7 +123,7 @@ export default function RenderAvatar() {
                                         >
                                             Change
                                         </MenuItem>
-                                        <MenuItem onClick={handleClose}>Remove</MenuItem>
+                                        {/* <MenuItem onClick={}>Remove</MenuItem> */}
                                     </MenuList>
                                 </ClickAwayListener>
                             </Paper>
