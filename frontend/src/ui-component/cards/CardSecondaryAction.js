@@ -15,7 +15,13 @@ const CardSecondaryAction = ({ title, link, icon }) => {
             <ButtonBase disableRipple>
                 {!icon && (
                     <Avatar component={Link} href={link} target="_blank" alt="MUI Logo" size="badge" color="primary" outline>
-                        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        {/* <svg
+                            width="500"
+                            height="500"
+                            viewBox="0 0 500 500"
+                            fill="none"
+                            xmlns="https://www.google.com/url?sa=i&url=https%3A%2F%2Ffavpng.com%2Fpng_view%2Ficon-drawing-3d-3d-computer-graphics-3d-printing-iconfinder-png%2F4LCYVHEg&psig=AOvVaw3kHt9YYCmGrngWYtidedvB&ust=1650433493591000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCLi3xIW2n_cCFQAAAAAdAAAAABAJ"
+                        >
                             <g clipPath="url(#clip0)">
                                 <path
                                     d="M100 260.9V131L212.5 195.95V239.25L137.5 195.95V282.55L100 260.9Z"
@@ -36,7 +42,7 @@ const CardSecondaryAction = ({ title, link, icon }) => {
                                     <rect width="300" height="238.3" fill="white" transform="translate(100 131)" />
                                 </clipPath>
                             </defs>
-                        </svg>
+                        </svg> */}
                     </Avatar>
                 )}
                 {icon && (

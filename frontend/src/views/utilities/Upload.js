@@ -26,6 +26,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 
 // ===============================|| COLOR BOX ||=============================== //
 
@@ -171,7 +172,7 @@ const UIColor = () => {
                                                     p: 2,
                                                     border: '1px solid grey',
                                                     borderRadius: 2,
-                                                    backgroundColor: file._id === selectedImage._id ? 'green' : 'grey'
+                                                    backgroundColor: file._id === selectedImage._id ? 'skyblue' : 'grey'
                                                 }}
                                             >
                                                 <div>
@@ -255,13 +256,14 @@ const UIColor = () => {
                                             <div
                                                 component="span"
                                                 style={{
-                                                    p: 2,
+                                                    p: 3,
                                                     border: '1px solid grey',
                                                     borderRadius: 2,
-                                                    backgroundColor: file._id === selectedAudio._id ? 'green' : 'primary.light'
+                                                    backgroundColor: file._id === selectedAudio._id ? 'skyblue' : 'primary.light'
                                                 }}
                                             >
                                                 <div>
+                                                    <AudiotrackIcon />
                                                     {file.name} : {file.purpose}
                                                 </div>
                                             </div>

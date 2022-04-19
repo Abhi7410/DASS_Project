@@ -21,6 +21,8 @@ const useStyles = makeStyles({
     cancelIcon: {
         color: '#00a3c8',
         fontSize: '30px',
+        marginLeft: '20px',
+        position: 'relative',
         '&:hover': {
             color: 'red'
         }
@@ -81,7 +83,7 @@ export default function RenderCropper({ handleCropper, setAvatar }) {
     };
 
     const onClear = () => {
-        if (!image) return setStateSnackbarContext(true, 'Please select an image!', 'warning');
+        if (!image) return null;
         setImage(null);
         return null;
     };
@@ -134,10 +136,10 @@ export default function RenderCropper({ handleCropper, setAvatar }) {
                 >
                     Choose
                 </Button>
-                <Button variant="contained" color="secondary" onClick={onDownload} style={{ marginRight: '10px', marginBottom: '20px' }}>
+                {/* <Button variant="contained" color="secondary" onClick={onDownload} style={{ marginRight: '10px', marginBottom: '20px' }}>
                     Download
-                </Button>
-                <Button variant="contained" color="secondary" onClick={onUpload} style={{ marginRight: '10px', marginBottom: '20px' }}>
+                </Button> */}
+                <Button variant="contained" color="primary" onClick={onUpload} style={{ marginRight: '10px', marginBottom: '20px' }}>
                     Upload
                 </Button>
             </div>
