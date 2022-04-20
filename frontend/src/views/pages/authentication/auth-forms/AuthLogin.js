@@ -35,10 +35,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
 import axios from 'axios';
+import { GoogleLogin } from 'react-google-login';
 import { Navigate } from 'react-router';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
-
+const clientId = '175728617617-huqbntmoc6q1ifvh2j5pgaiqgkujhd10.apps.googleusercontent.com';
 const FirebaseLogin = ({ ...others }) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
@@ -59,6 +60,31 @@ const FirebaseLogin = ({ ...others }) => {
     };
     const API_URL = 'http://localhost/api/user/';
 
+    const onLoginSuccess = (res) => {
+        console.log('Login Success:', res.profileObj);
+        // const newUser = {
+        //     email: res.profileObj.email,
+        //     date: Date.now()
+        // };
+
+        // axios.post(API_URL + '/glogin', newUser).then((response) => {
+        //     alert('Logged as ' + response.data.email);
+        //     props.onAuth(response.data.email);
+        //     props.onAuthT(response.data.type);
+
+        //     localStorage.setItem('Auth', response.data.email);
+        //     localStorage.setItem('AuthT', response.data.type);
+        //     if (response.data.type == 'Buyer') {
+        //         props.onAuthW(response.data.wallet);
+        //         localStorage.setItem('Wallet', response.data.wallet);
+        //     }
+        //     console.log(response.data);
+        // });
+    };
+    const onLoginFailure = (res) => {
+        console.log('Login Failed:', res);
+    };
+
     const attemptLogin = (values) => {
         console.log(values);
         axios
@@ -78,27 +104,15 @@ const FirebaseLogin = ({ ...others }) => {
     };
     return (
         <>
-            <Grid container direction="column" justifyContent="center" spacing={2}>
+            <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2}>
                 <Grid item xs={12}>
-                    <AnimateButton>
-                        <Button
-                            disableElevation
-                            fullWidth
-                            onClick={googleHandler}
-                            size="large"
-                            variant="outlined"
-                            sx={{
-                                color: 'grey.700',
-                                backgroundColor: theme.palette.grey[50],
-                                borderColor: theme.palette.grey[100]
-                            }}
-                        >
-                            <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-                            </Box>
-                            Sign in with Google
-                        </Button>
-                    </AnimateButton>
+                    <GoogleLogin
+                        clientId={clientId}
+                        buttonText="Sign In using Google"
+                        onSuccess={onLoginSuccess}
+                        onFailure={onLoginFailure}
+                        cookiePolicy={'none'}
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <Box
@@ -130,7 +144,7 @@ const FirebaseLogin = ({ ...others }) => {
                         <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
                     </Box>
                 </Grid>
-                <Grid item xs={12} container alignItems="center" justifyContent="center">
+                <Grid item xs={1} container alignItems="center" justifyContent="center">
                     <Box sx={{ mb: 2 }}>
                         <Typography variant="subtitle1">Sign in with Email address</Typography>
                     </Box>
@@ -139,8 +153,8 @@ const FirebaseLogin = ({ ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'cur@g.com',
-                    password: '123456',
+                    email: 'r@g.com',
+                    password: '123',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({

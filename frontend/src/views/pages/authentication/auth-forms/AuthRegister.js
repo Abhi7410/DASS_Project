@@ -37,7 +37,10 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import axios from 'axios';
+
+import { GoogleLogin } from 'react-google-login';
 // ===========================|| FIREBASE - REGISTER ||=========================== //
+const clientId = '175728617617-huqbntmoc6q1ifvh2j5pgaiqgkujhd10.apps.googleusercontent.com';
 
 const FirebaseRegister = ({ ...others }) => {
     const theme = useTheme();
@@ -49,14 +52,29 @@ const FirebaseRegister = ({ ...others }) => {
 
     const [strength, setStrength] = useState(0);
     const [level, setLevel] = useState();
+
+    const [fname, setFname] = useState('');
+    const [lname, setLname] = useState('');
+    const [email, setEmail] = useState('');
+
+    const onChangeFname = (e) => {
+        setFname(e.target.value);
+    };
+    const onChangeLname = (e) => {
+        setLname(e.target.value);
+    };
+    const onChangeEmail = (e) => {
+        setEmail(e.target.value);
+    };
+
     const API_URL = 'http://localhost/api/user/';
     const register = (values) => {
         console.log(values);
         axios
             .post(API_URL + 'register', {
-                fname: values.fname,
-                lname: values.lname,
-                email: values.email,
+                fname: fname,
+                lname: lname,
+                email: email,
                 password: values.password
             })
             .then((res) => {
@@ -67,7 +85,14 @@ const FirebaseRegister = ({ ...others }) => {
     const googleHandler = async () => {
         console.error('Register');
     };
-
+    const onRegSuccess = (res) => {
+        setFname(res.profileObj.givenName);
+        setLname(res.profileObj.familyName);
+        setEmail(res.profileObj.email);
+    };
+    const onRegFailure = (res) => {
+        console.log('Login Failed:', res);
+    };
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -88,26 +113,15 @@ const FirebaseRegister = ({ ...others }) => {
 
     return (
         <>
-            <Grid container direction="column" justifyContent="center" spacing={2}>
+            <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2}>
                 <Grid item xs={12}>
-                    <AnimateButton>
-                        <Button
-                            variant="outlined"
-                            fullWidth
-                            onClick={googleHandler}
-                            size="large"
-                            sx={{
-                                color: 'grey.700',
-                                backgroundColor: theme.palette.grey[50],
-                                borderColor: theme.palette.grey[100]
-                            }}
-                        >
-                            <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-                            </Box>
-                            Sign up with Google
-                        </Button>
-                    </AnimateButton>
+                    <GoogleLogin
+                        clientId={clientId}
+                        buttonText="Register using Google"
+                        onSuccess={onRegSuccess}
+                        onFailure={onRegFailure}
+                        cookiePolicy={'none'}
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <Box sx={{ alignItems: 'center', display: 'flex' }}>
@@ -171,8 +185,8 @@ const FirebaseRegister = ({ ...others }) => {
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
-                                    value={values.fname}
-                                    onChange={handleChange}
+                                    value={fname}
+                                    onChange={onChangeFname}
                                     label="First Name"
                                     margin="normal"
                                     name="fname"
@@ -189,8 +203,8 @@ const FirebaseRegister = ({ ...others }) => {
                                     name="lname"
                                     type="text"
                                     defaultValue=""
-                                    value={values.lname}
-                                    onChange={handleChange}
+                                    value={lname}
+                                    onChange={onChangeLname}
                                     sx={{ ...theme.typography.customInput }}
                                 />
                             </Grid>
@@ -200,10 +214,10 @@ const FirebaseRegister = ({ ...others }) => {
                             <OutlinedInput
                                 id="outlined-adornment-email-register"
                                 type="email"
-                                value={values.email}
+                                value={email}
                                 name="email"
                                 onBlur={handleBlur}
-                                onChange={handleChange}
+                                onChange={onChangeEmail}
                                 inputProps={{}}
                             />
                             {touched.email && errors.email && (

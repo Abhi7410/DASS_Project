@@ -19,6 +19,9 @@ services:
     networks:
       - frontend  
   nginx:
+    depends_on:
+      - back
+      - front
     build:
         context: ./nginx
         dockerfile: Dockerfile.dev
