@@ -72,12 +72,10 @@ const ResultPage = () => {
     const [results, setResults] = useState([]);
 
     useEffect(() => {
-        axios
-            .get('http://localhost/api/upload/get_result', { headers: { 'x-access-token': localStorage.getItem('user') } })
-            .then((res) => {
-                console.log(res.data);
-                setResults(res.data);
-            });
+        axios.get('http://localhost/api/upload/get_result', { headers: { 'x-access-token': localStorage.getItem('user') } }).then((res) => {
+            console.log(res.data);
+            setResults(res.data);
+        });
     }, []);
 
     return (

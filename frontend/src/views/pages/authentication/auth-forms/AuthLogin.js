@@ -62,24 +62,20 @@ const FirebaseLogin = ({ ...others }) => {
 
     const onLoginSuccess = (res) => {
         console.log('Login Success:', res.profileObj);
-        // const newUser = {
-        //     email: res.profileObj.email,
-        //     date: Date.now()
-        // };
+        const newUser = {
+            email: res.profileObj.email,
+            date: Date.now()
+        };
 
-        // axios.post(API_URL + '/glogin', newUser).then((response) => {
-        //     alert('Logged as ' + response.data.email);
-        //     props.onAuth(response.data.email);
-        //     props.onAuthT(response.data.type);
+        axios.post(API_URL + 'glogin', newUser).then((response) => {
+            alert('Logged as ' + response.data.user.email);
+            console.log(response.data);
+            if (response.data.token) {
+                localStorage.setItem('user', response.data.token);
 
-        //     localStorage.setItem('Auth', response.data.email);
-        //     localStorage.setItem('AuthT', response.data.type);
-        //     if (response.data.type == 'Buyer') {
-        //         props.onAuthW(response.data.wallet);
-        //         localStorage.setItem('Wallet', response.data.wallet);
-        //     }
-        //     console.log(response.data);
-        // });
+                navigate('/dashboard/default');
+            }
+        });
     };
     const onLoginFailure = (res) => {
         console.log('Login Failed:', res);

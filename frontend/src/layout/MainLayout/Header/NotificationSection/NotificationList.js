@@ -64,13 +64,11 @@ const NotificationList = () => {
     };
 
     useEffect(() => {
-        axios
-            .get('http://localhost/api/upload/get_result', { headers: { 'x-access-token': localStorage.getItem('user') } })
-            .then((res) => {
-                console.log(res.data);
-                // setResults([2]);
-                setResults(res.data);
-            });
+        axios.get('http://localhost/api/upload/get_result', { headers: { 'x-access-token': localStorage.getItem('user') } }).then((res) => {
+            console.log(res.data);
+            // setResults([2]);
+            setResults(res.data);
+        });
     }, []);
     return (
         <List

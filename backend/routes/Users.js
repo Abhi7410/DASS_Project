@@ -62,6 +62,29 @@ router.post("/setProfilePic", auth, async (req, res) => {
 
 // module.exports = router;/
 
+router.post("/glogin", (req, res) => {
+  const email = req.body.email;
+  // Find user by email
+  User.findOne({ email })
+    .then((user) => {
+      const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "24h" });
+      if (!token) throw Error("Couldnt sign the token");
+
+      res.status(200).json({
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(401).send("User not found");
+    });
+});
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);
